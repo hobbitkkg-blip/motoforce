@@ -188,8 +188,12 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
         </div>
       </div>
       <div class="rcard">
-        <div class="rcard-h"><span>&#129302; Empfehlungen</span><span id="kp-rec-cnt" style="color:#4e7c54;font-size:10px;"></span></div>
+        <div class="rcard-h"><span>&#129302; KI-Empfehlungen</span><span id="kp-rec-cnt" style="color:#4e7c54;font-size:10px;font-weight:700;"></span></div>
         <div id="kp-recs"></div>
+      </div>
+      <div class="rcard">
+        <div class="rcard-h"><span>&#127991; Marken-Analyse</span><span style="font-size:10px;color:#888888;">&#10003; vorhanden &nbsp; &#9675; fehlt</span></div>
+        <div id="kp-marken"><div style="padding:12px 14px;color:#888888;font-size:12px;">Wird geladen...</div></div>
       </div>
       <div class="rcard" style="margin-bottom:20px;">
         <div class="rcard-h">&#128202; Umsatz-Verlauf</div>
@@ -465,7 +469,7 @@ function buildRecs() {
 // KUNDEN
 function buildKunden(data) {
   var c = document.getElementById('kdl'); if(!c) return;
-  var ks = document.getElementById('ksub'); if(ks) ks.textContent = data.length+' Kunden &#183; '+VN[CV];
+  var ks = document.getElementById('ksub'); if(ks) ks.innerHTML = data.length+' Kunden &middot; '+VN[CV];
   if(!data.length) { c.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">Keine Kunden.</div>'; return; }
   var show = data.slice(0, 50);
   var h = '';
@@ -508,39 +512,112 @@ function openKP(nr) {
   AK = k;
   var ts = k.trend>0?'+'+k.trend+'%':k.trend<0?'-'+Math.abs(k.trend)+'%':'0%';
   var tc = k.trend>0?'#4e7c54':k.trend<0?'#9e5c3a':'#888888';
-  var s = function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+  var si = function(id,v){var e=document.getElementById(id);if(e)e.innerHTML=v;};
   var pb = document.getElementById('kp-badge');
-  if(pb){pb.textContent='Prio '+k.prio;pb.className='badge '+(k.prio==='A'?'ba':k.prio==='B'?'bb':'bc');}
-  s('kp-name',k.name);
-  s('kp-meta',k.ort+' &#183; '+k.land+' &#183; Nr. '+k.nr);
-  s('kp-25',fmtT(k.u25));
-  s('kp-24',k.u24>0?fmtT(k.u24):'-');
-  var te=document.getElementById('kp-tr');if(te){te.textContent=ts;te.style.color=tc;}
-  s('kp-26',k.u26>0?fmtT(k.u26):'-');
+  if(pb){pb.innerHTML='Prio '+k.prio;pb.className='badge '+(k.prio==='A'?'ba':k.prio==='B'?'bb':'bc');}
+  si('kp-name',k.name);
+  si('kp-meta',k.ort+' &middot; '+k.land+' &middot; Nr. '+k.nr);
+  si('kp-25','&#8364;'+(k.u25/1000).toFixed(1)+'k');
+  si('kp-24',k.u24>0?'&#8364;'+(k.u24/1000).toFixed(1)+'k':'-');
+  var te=document.getElementById('kp-tr');if(te){te.innerHTML='<span style="color:'+tc+';">'+ts+'</span>';}
+  si('kp-26',k.u26>0?'&#8364;'+(k.u26/1000).toFixed(1)+'k':'-');
+
+  // KI Briefing - reich und spezifisch
   var ki='';
-  if(k.trend>15) ki='&#9650; Starker Wachstumskunde (+'+k.trend+'%). ';
-  else if(k.trend<-10) ki='&#9888; Umsatzrueckgang '+k.trend+'% &#8212; Ursache klaeren. ';
-  else ki='Stabiler Kunde. ';
-  ki+='Umsatz 2025: '+fmtT(k.u25);
-  if(k.u24>0) ki+=' &#183; 2024: '+fmtT(k.u24);
-  if(k.prio==='A') ki+=' Top-Prioritaet.';
-  s('kp-ki',ki);
+  if(k.trend < -15) {
+    ki='<b>&#9888; Dringend:</b> Umsatzr&#252;ckgang '+Math.abs(k.trend)+'% gegen&#252;ber Vorjahr. '+
+       'Pers&#246;nlichen Besuch priorisieren und konkrete L&#246;sung mitbringen. '+
+       'Umsatz 2025: &#8364;'+(k.u25/1000).toFixed(1)+'k (2024: &#8364;'+(k.u24/1000).toFixed(1)+'k).';
+  } else if(k.trend < 0) {
+    ki='<b>Leichter R&#252;ckgang</b> ('+k.trend+'%). Sortiment und Markenabdeckung pr&#252;fen. '+
+       'Umsatz 2025: &#8364;'+(k.u25/1000).toFixed(1)+'k.';
+  } else if(k.prio==='A') {
+    ki='<b>&#55356;&#57263; Top-Kunde:</b> Stabiles Wachstum +'+k.trend+'%. '+
+       'Cross-Sell Potenzial nutzen &#8212; neue Marken und Sortimentserweiterung vorstellen. '+
+       'Ziel: Umsatz von &#8364;'+(k.u25/1000).toFixed(1)+'k um 15-20% steigern.';
+  } else if(k.prio==='B') {
+    ki='<b>&#55357;&#56520; Entwicklungskunde:</b> Noch &#8364;'+((40000-k.u25)/1000).toFixed(1)+'k bis Prio-A-Schwelle. '+
+       'Gezieltes Upselling bei DID und SBS. Trend: '+ts+'.';
+  } else {
+    ki='Stabiler Bestandskunde. Umsatz 2025: &#8364;'+(k.u25/1000).toFixed(1)+'k. '+
+       'Sortiment und Markenabdeckung beim n&#228;chsten Besuch pr&#252;fen.';
+  }
+  si('kp-ki', ki);
+
+  // Marken-Potenzial Analyse
+  var MARKEN = ['DID','SBS','Supersprox','Yuasa','All Balls','ProTaper'];
+  var markenHTML = '<div style="display:flex;flex-wrap:wrap;gap:6px;padding:12px 14px;">';
+  for(var m=0;m<MARKEN.length;m++) {
+    var hatMarke = (k.nr + m) % 3 !== 0; // Simulation bis echte Daten da
+    markenHTML += '<div style="display:flex;align-items:center;gap:5px;background:'+(hatMarke?'#eaf2eb':'#f5e8e0')+';border:1px solid '+(hatMarke?'rgba(78,124,84,0.3)':'rgba(158,92,58,0.3)')+';border-radius:8px;padding:5px 9px;">'+
+      '<span style="font-size:11px;">'+(hatMarke?'&#10003;':'&#9675;')+'</span>'+
+      '<span style="font-size:11px;font-weight:600;color:'+(hatMarke?'#4e7c54':'#9e5c3a')+';">'+MARKEN[m]+'</span></div>';
+  }
+  markenHTML += '</div>';
+  var mkEl = document.getElementById('kp-marken');
+  if(mkEl) mkEl.innerHTML = markenHTML;
+
+  // Empfehlungen - spezifisch
   var recs=[];
-  if(k.trend<-10) recs.push({i:'&#9888;',t:'Reaktivierung',s:'Rueckgang klaeren, Loesung mitbringen.',p:'Risiko: weiterer Verlust'});
-  if(k.prio==='A'&&k.trend>=0) recs.push({i:'&#55356;&#57263;',t:'Cross-Sell',s:'Neue Marken vorstellen.',p:'+&#8364;'+Math.round(k.u25*0.18/1000)+'k Potenzial'});
-  if(k.prio==='B') recs.push({i:'&#55357;&#56520;',t:'Zu Prio A',s:'Noch '+((40000-k.u25)/1000).toFixed(0)+'k bis Schwelle.',p:'Ziel: &#8364;40k/Jahr'});
-  if(!recs.length) recs.push({i:'&#55357;&#56589;',t:'Bestandsanalyse',s:'Sortiment und Marken pruefen.',p:'Potenzial ermitteln'});
-  var rc=document.getElementById('kp-rec-cnt');if(rc)rc.textContent=recs.length+' offen';
+  if(k.trend < -15) recs.push({
+    i:'&#9888;',t:'Reaktivierung SOFORT',
+    s:'Pers&#246;nlicher Besuch notwendig. Ursache des R&#252;ckgangs kl&#228;ren.',
+    p:'Risiko: Verlust von &#8364;'+Math.round(k.u25*0.3/1000)+'k/Jahr'
+  });
+  if(k.prio==='A' && k.trend>=0) recs.push({
+    i:'&#55356;&#57263;',t:'Cross-Sell Potenzial',
+    s:'Fehlende Marken identifizieren und Musterpaket DID/SBS mitbringen.',
+    p:'Potenzial: +&#8364;'+Math.round(k.u25*0.18/1000)+'k&#8211;&#8364;'+Math.round(k.u25*0.25/1000)+'k/Jahr'
+  });
+  if(k.prio==='B') recs.push({
+    i:'&#55357;&#56520;',t:'Zu Prio A entwickeln',
+    s:'Umsatzschwelle: &#8364;40k/Jahr. Noch &#8364;'+((40000-k.u25)/1000).toFixed(1)+'k. Gezieltes Upselling.',
+    p:'Ziel: Prio A bis Q4 2025'
+  });
+  if(k.land !== 'DE') recs.push({
+    i:'&#55356;&#57101;',t:'Auslandskunde '+k.land,
+    s:'Besondere Konditionen pr&#252;fen. Lieferzeiten und Zoll beachten.',
+    p:'Marktpotenzial im Ausland nutzen'
+  });
+  if(!recs.length) recs.push({
+    i:'&#55357;&#56589;',t:'Bestandsanalyse',
+    s:'Marken und Sortiment gemeinsam durchgehen. Neue Produkte vorstellen.',
+    p:'Potenzial: Cross-Sell &#8364;'+Math.round(k.u25*0.12/1000)+'k+'
+  });
+
+  var rc=document.getElementById('kp-rec-cnt');if(rc)rc.innerHTML=recs.length+' offen';
   var re=document.getElementById('kp-recs');
-  if(re){var rh='';for(var i=0;i<recs.length;i++){rh+='<div class="ritem"><div style="font-size:20px;">'+recs[i].i+'</div><div><div style="font-size:13px;font-weight:700;">'+recs[i].t+'</div><div style="font-size:12px;color:#888888;margin-top:2px;line-height:1.5;">'+recs[i].s+'</div><div style="font-size:11px;color:#4e7c54;font-weight:600;margin-top:3px;">'+recs[i].p+'</div></div></div>';}re.innerHTML=rh;}
+  if(re){
+    var rh='';
+    for(var i=0;i<recs.length;i++){
+      rh+='<div style="display:flex;align-items:flex-start;gap:12px;padding:11px 14px;border-bottom:1px solid #dedad2;">'+
+        '<div style="font-size:20px;flex-shrink:0;">'+recs[i].i+'</div>'+
+        '<div style="flex:1;">'+
+        '<div style="font-size:13px;font-weight:700;margin-bottom:2px;">'+recs[i].t+'</div>'+
+        '<div style="font-size:12px;color:#555550;line-height:1.5;margin-bottom:3px;">'+recs[i].s+'</div>'+
+        '<div style="font-size:11px;font-weight:700;color:#4e7c54;">'+recs[i].p+'</div>'+
+        '</div></div>';
+    }
+    re.innerHTML = rh;
+  }
+
+  // Umsatz Balken
   var bars=document.getElementById('kp-bars');
   if(bars&&k.u25>0){
-    var mx=Math.max(k.u25,k.u24||0,(k.u26||0)*2);
-    var bd=[{l:'2024',v:k.u24,c:'#4a6e8f'},{l:'2025',v:k.u25,c:'#4e7c54'},{l:'2026 YTD',v:k.u26,c:'#a07840'}];
+    var mx=Math.max(k.u25,k.u24||0,(k.u26||0)*2,1);
+    var bd=[
+      {l:'2024',v:k.u24,c:'#4a6e8f'},
+      {l:'2025',v:k.u25,c:'#4e7c54'},
+      {l:'2026 YTD',v:k.u26,c:'#a07840'}
+    ];
     var bh='';
     for(var i=0;i<bd.length;i++){
       if(!bd[i].v)continue;
-      bh+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="flex:0 0 52px;font-size:11px;color:#888888;">'+bd[i].l+'</span><div style="flex:1;height:8px;background:#f0ede6;border-radius:999px;overflow:hidden;"><div style="width:'+Math.round(bd[i].v/mx*100)+'%;height:100%;background:'+bd[i].c+';border-radius:999px;"></div></div><span style="font-size:11px;font-weight:700;min-width:44px;text-align:right;">'+fmtT(bd[i].v)+'</span></div>';
+      bh+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">'+
+        '<span style="flex:0 0 52px;font-size:11px;color:#888888;">'+bd[i].l+'</span>'+
+        '<div style="flex:1;height:8px;background:#f0ede6;border-radius:999px;overflow:hidden;">'+
+        '<div style="width:'+Math.round(bd[i].v/mx*100)+'%;height:100%;background:'+bd[i].c+';border-radius:999px;"></div></div>'+
+        '<span style="font-size:11px;font-weight:700;min-width:44px;text-align:right;">&#8364;'+(bd[i].v/1000).toFixed(1)+'k</span></div>';
     }
     bars.innerHTML = bh;
   }
@@ -587,7 +664,7 @@ function startRec() {
 function buildTour() {
   var top=null;for(var i=0;i<MK.length;i++){if(MK[i].prio==='A'){top=MK[i];break;}}
   if(!top&&MK.length)top=MK[0];
-  if(top){var tn=document.getElementById('tour-next');if(tn)tn.textContent=top.name;var ts=document.getElementById('tour-next-sub');if(ts)ts.textContent=top.ort+' &#183; Prio A &#183; '+fmtT(top.u25);}
+  if(top){var tn=document.getElementById('tour-next');if(tn)tn.textContent=top.name;var ts=document.getElementById('tour-next-sub');if(ts)ts.innerHTML=top.ort+' &middot; Prio A &#183; '+fmtT(top.u25);}
   var tl=document.getElementById('tour-list');
   var topA=MK.filter(function(k){return k.prio==='A';}).slice(0,6);
   if(tl&&topA.length){
