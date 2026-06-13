@@ -176,7 +176,7 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
         <div class="mkr">
           <div class="mkp"><div class="mkpv" id="kp-25">-</div><div class="mkpl">2025</div></div>
           <div class="mkp"><div class="mkpv" id="kp-24">-</div><div class="mkpl">2024</div></div>
-          <div class="mkp"><div class="mkpv" id="kp-tr">-</div><div class="mkpl">Trend</div></div>
+          <div class="mkp"><div class="mkpv" id="kp-tr">-</div><div class="mkpl" id="kp-tr-lbl">Trend</div></div>
           <div class="mkp"><div class="mkpv" id="kp-26">-</div><div class="mkpl">YTD 26</div></div>
         </div>
       </div>
@@ -254,7 +254,7 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
       </div>
       <div style="display:flex;gap:8px;padding:12px 16px 80px;">
         <div style="flex:1;background:#e8eff6;border:1px solid rgba(74,110,143,0.2);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128231;</div><div style="font-size:11px;font-weight:600;color:#4a6e8f;">Outlook</div></div>
-        <div style="flex:1;background:#e8f5e9;border:1px solid rgba(46,125,50,0.2);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128172;</div><div style="font-size:11px;font-weight:600;color:#2e7d32;">WhatsApp</div></div>
+        <div onclick="openWA('besuch',AK)" style="flex:1;background:#e8f5e9;border:1px solid rgba(46,125,50,0.2);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128172;</div><div style="font-size:11px;font-weight:600;color:#2e7d32;">WhatsApp</div></div>
         <div style="flex:1;background:#fce4ec;border:1px solid rgba(233,30,99,0.2);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#9989;</div><div style="font-size:11px;font-weight:600;color:#e91e63;">Asana</div></div>
       </div>
     </div>
@@ -278,7 +278,7 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
         <div style="display:flex;gap:8px;margin-top:10px;">
           <div onclick="tourJetztBesuchen()" style="flex:1;background:#4e7c54;border-radius:10px;padding:8px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;color:#fff;">&#128100; Profil</div>
           <div style="flex:1;background:#fff;border:1px solid rgba(78,124,84,0.3);border-radius:10px;padding:8px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;color:#4e7c54;">&#128506; Route</div>
-          <div style="flex:1;background:#fff;border:1px solid rgba(78,124,84,0.3);border-radius:10px;padding:8px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;color:#4e7c54;">&#128172; WA</div>
+          <div onclick="openWA('besuch',null)" style="flex:1;background:#e8f5e9;border:1px solid rgba(46,125,50,0.2);border-radius:10px;padding:8px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;color:#2e7d32;">&#128172; WA</div>
         </div>
       </div>
       <div style="margin:0 16px 12px;background:#faf9f6;border:1px solid #dedad2;border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="gotoView('view-radar','nav-t')">
@@ -574,7 +574,14 @@ function openKP(nr) {
   si('kp-meta',k.ort+' &middot; '+k.land+' &middot; Nr. '+k.nr);
   si('kp-25','&#8364;'+(k.u25/1000).toFixed(1)+'k');
   si('kp-24',k.u24>0?'&#8364;'+(k.u24/1000).toFixed(1)+'k':'-');
-  var te=document.getElementById('kp-tr');if(te){te.innerHTML='<span style="color:'+tc+';">'+ts+'</span>';}
+  // Trend: 2026 YTD x2 hochgerechnet vs 2025 (laufende Saison)
+  var laufTrend = (k.u26>0&&k.u25>0) ? Math.round(((k.u26*2)/k.u25-1)*100) : k.trend;
+  var laufCol = laufTrend>0?'#4e7c54':laufTrend<0?'#9e5c3a':'#888888';
+  var laufStr = laufTrend>0?'+'+laufTrend+'%':laufTrend+'%';
+  var te=document.getElementById('kp-tr');
+  if(te) te.innerHTML='<span style="color:'+laufCol+';font-weight:800;">'+laufStr+'</span>';
+  var trLbl=document.getElementById('kp-tr-lbl');
+  if(trLbl) trLbl.innerHTML='Saison 26/25';
   si('kp-26',k.u26>0?'&#8364;'+(k.u26/1000).toFixed(1)+'k':'-');
 
   // KI Briefing - reich und spezifisch
@@ -764,8 +771,92 @@ function quickChat(q) {
   if(inp){inp.value=q;sChat();}
 }
 
+// &#9472;&#9472; WHATSAPP INTEGRATION &#9472;&#9472;
+function openWA(typ, k) {
+  if(!k) k = AK;
+  if(!k) return;
+  var name = k.name;
+  var ort = k.ort;
+  var u25 = '&#8364;'+(k.u25/1000).toFixed(1)+'k';
+  var text = '';
+  if(typ==='besuch') {
+    text = 'Guten Tag,'+
+      '%0A%0AIch bin heute in Ihrer Naehe und wuerde gerne kurz vorbeikommen.'+
+      '%0AHaben Sie heute noch etwas Zeit fuer mich?'+
+      '%0A%0AMit freundlichen Gruessen'+
+      '%0A'+VN[CV]+' - MotoForce';
+  } else if(typ==='nachbesuch') {
+    text = 'Guten Tag,'+
+      '%0A%0AVielen Dank fuer das gute Gespraech heute!'+
+      '%0AIch sende Ihnen das besprochene Angebot in Kuerze zu.'+
+      '%0A%0AMit freundlichen Gruessen'+
+      '%0A'+VN[CV]+' - MotoForce';
+  } else if(typ==='angebot') {
+    text = 'Guten Tag,'+
+      '%0A%0AWie besprochen erhalten Sie in Kuerze unser aktuelles Angebot.'+
+      '%0ABei Fragen stehe ich jederzeit zur Verfuegung.'+
+      '%0A%0AMit freundlichen Gruessen'+
+      '%0A'+VN[CV]+' - MotoForce';
+  } else {
+    text = 'Guten Tag, hier ist '+VN[CV]+' von MotoForce.';
+  }
+  // Oeffne WhatsApp Web - Nummer aus Kundendaten wenn vorhanden
+  var tel = k.tel || '';
+  if(tel) {
+    // Nummer bereinigen: nur Ziffern
+    tel = tel.replace(/[^0-9]/g,'');
+    if(tel.startsWith('0')) tel = '49'+tel.substring(1);
+    window.open('https://wa.me/'+tel+'?text='+text, '_blank');
+  } else {
+    // Kein Telefon gespeichert - zeige Panel
+    openWAPanel(typ, text, name);
+  }
+}
+
+function openWAPanel(typ, text, name) {
+  var panel = document.getElementById('wa-panel');
+  if(!panel) return;
+  var decoded = decodeURIComponent(text.replace(/%0A/g,'\n'));
+  document.getElementById('wa-msg-text').value = decoded;
+  document.getElementById('wa-panel-title').innerHTML = '&#128172; WhatsApp an '+name;
+  panel.style.display = 'flex';
+}
+
+function sendWAPanel() {
+  var tel = document.getElementById('wa-tel-input').value.replace(/[^0-9]/g,'');
+  var msg = document.getElementById('wa-msg-text').value;
+  if(!tel) { alert('Bitte Telefonnummer eingeben'); return; }
+  if(tel.startsWith('0')) tel = '49'+tel.substring(1);
+  var encoded = encodeURIComponent(msg);
+  window.open('https://wa.me/'+tel+'?text='+encoded, '_blank');
+  closeWAPanel();
+}
+
+function closeWAPanel() {
+  var panel = document.getElementById('wa-panel');
+  if(panel) panel.style.display = 'none';
+}
+
 // INIT
 buildLogin();
 </script>
+
+  <!-- WHATSAPP PANEL -->
+  <div id="wa-panel" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:500;align-items:flex-end;justify-content:center;">
+    <div style="background:#faf9f6;border-radius:24px 24px 0 0;padding:20px;width:100%;max-width:390px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div style="font-size:15px;font-weight:800;" id="wa-panel-title">&#128172; WhatsApp</div>
+        <div onclick="closeWAPanel()" style="font-size:22px;cursor:pointer;color:#888888;">&#10005;</div>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:#888888;text-transform:uppercase;margin-bottom:6px;">Telefonnummer</div>
+      <input id="wa-tel-input" placeholder="+49 123 456789" style="width:100%;background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:10px 13px;font-size:14px;margin-bottom:12px;outline:none;">
+      <div style="font-size:11px;font-weight:700;color:#888888;text-transform:uppercase;margin-bottom:6px;">Nachricht</div>
+      <textarea id="wa-msg-text" rows="5" style="width:100%;background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:14px;outline:none;resize:none;line-height:1.5;"></textarea>
+      <div style="display:flex;gap:8px;">
+        <div onclick="closeWAPanel()" style="flex:1;background:#f0ede6;border-radius:12px;padding:12px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;color:#888888;">Abbrechen</div>
+        <div onclick="sendWAPanel()" style="flex:2;background:#25D366;border-radius:12px;padding:12px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;color:#fff;">&#128172; In WhatsApp oeffnen</div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
