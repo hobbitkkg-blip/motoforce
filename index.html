@@ -260,16 +260,10 @@ body { background: #e8e5df; font-family: -apple-system, 'Inter', sans-serif; dis
       </div>
     <div class="view" id="view-kunden">
       <div class="topbar">
-        <div><div class="topbar-title">Kunden</div><div class="topbar-sub">248 in deinem Gebiet</div></div>
+        <div><div class="topbar-title">Kunden</div><div class="topbar-sub" id="k-sub">Meine Kunden</div></div>
         <div style="display:flex;gap:6px;"><span class="badge ba">A: 31</span><span class="badge bb">B: 89</span><span class="badge bc">C: 128</span></div>
       </div>
-      <div class="search"><span>&#128269;</span><span style="color:var(--muted);">Suchen oder KI fragen&#8230;</span></div>
-              <div class="badge" style="background:var(--amber-bg);color:var(--amber);cursor:pointer;padding:5px 12px;">Reaktivierung</div>
-        <div class="badge bok" style="cursor:pointer;padding:5px 12px;">Wachstum</div>
-        <div class="badge bc" style="background:#f0efec;cursor:pointer;padding:5px 12px;">R&#252;ckgang</div>
-        <div class="badge bc" style="background:#f0efec;cursor:pointer;padding:5px 12px;">Nicht validiert</div>
-      </div>
-      <div class="div"></div>
+
 
       <div style="display:flex;gap:7px;padding:6px 16px 8px;overflow-x:auto;scrollbar-width:none;">
         <div class="kfl" onclick="fk(event,'all')">Alle</div>
@@ -811,6 +805,7 @@ function doLogin(){
   if(!CV)return;
   MK=[];
   for(var i=0;i<KA.length;i++){if(KA[i].vertreter===CV)MK.push(KA[i]);}
+  console.log('doLogin: CV='+CV+' MK='+MK.length);
   MK.sort(function(a,b){return b.u25-a.u25;});
   document.getElementById('lov').style.display='none';
   var av=document.getElementById('uav');if(av)av.textContent=VI[CV];
@@ -850,7 +845,7 @@ function buildRec(){
 
 function buildKL(data){
   var c=document.getElementById('kdl');if(!c)return;
-  var ks=document.querySelector('#view-kunden .topbar-sub');if(ks)ks.textContent=data.length+' Kunden';
+  var ks=document.getElementById('k-sub');if(ks)ks.textContent=data.length+' Kunden &#183; '+VN[CV];
   if(!data.length){c.innerHTML='<div style="padding:20px;text-align:center;color:#888;">Keine Kunden.</div>';return;}
   var h='',show=data.length>40?data.slice(0,40):data;
   for(var i=0;i<show.length;i++){
