@@ -741,30 +741,6 @@ function buildTour() {
 }
 
 // CHAT
-function sChat() {
-  var inp=document.getElementById('cinp');if(!inp)return;
-  var q=inp.value.trim();if(!q||!MK.length)return;inp.value='';
-  var hist=document.getElementById('chat-msgs');if(!hist)return;
-  var ud=document.createElement('div');ud.className='msg user';ud.innerHTML='<div class="bubble">'+q+'</div>';hist.appendChild(ud);
-  var ql=q.toLowerCase(),text='';
-  if(ql.indexOf('top')>=0){
-    var top=MK.slice().sort(function(a,b){return b.u25-a.u25;}).slice(0,5);
-    text='<b>Top-5 Kunden 2025:</b>';
-    for(var i=0;i<top.length;i++)text+='<div style="background:#f0ede6;border-radius:8px;padding:7px 10px;margin-top:5px;cursor:pointer;" onclick="openKP('+top[i].nr+')">'+(i+1)+'. <b>'+top[i].name+'</b> &#183; '+fmtT(top[i].u25)+'</div>';
-  } else if(ql.indexOf('ck')>=0){
-    var dn=MK.filter(function(k){return k.trend<-10;});
-    text='<b>'+dn.length+' Kunden mit Rueckgang:</b>';
-    for(var i=0;i<Math.min(dn.length,5);i++)text+='<div style="background:#f5e8e0;border-radius:8px;padding:7px 10px;margin-top:5px;cursor:pointer;" onclick="openKP('+dn[i].nr+')">'+(i+1)+'. <b>'+dn[i].name+'</b> &#183; '+dn[i].trend+'%</div>';
-  } else {
-    var u25t=0;for(var i=0;i<MK.length;i++)u25t+=MK[i].u25;
-    text='Ich kenne alle '+MK.length+' Kunden ('+fmtT(u25t)+' 2025). Frag mich: Top-Kunden, Rueckgang, Ausland, Wachstum.';
-  }
-  setTimeout(function(){
-    var bd=document.createElement('div');bd.className='msg bot';
-    bd.innerHTML='<div class="msgav">&#129302;</div><div class="bubble">'+text+'</div>';
-    hist.appendChild(bd);hist.scrollTop=99999;
-  },500);
-}
 
 function quickChat(q) {
   // Direkt antworten ohne Input-Feld
