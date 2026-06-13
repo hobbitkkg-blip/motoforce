@@ -206,19 +206,24 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
       <div class="detailbar">
         <div class="backbtn" onclick="gotoView('view-kp','nav-k')">&#8249;</div>
-        <div style="flex:1;text-align:center;font-size:14px;font-weight:700;">Vorbereitung</div>
+        <div style="flex:1;text-align:center;font-size:14px;font-weight:700;">&#128203; Vorbereitung</div>
+        <div style="font-size:11px;color:#888888;" id="pv-name-top">-</div>
       </div>
-      <div style="padding:14px 20px;">
-        <div style="font-size:18px;font-weight:800;margin-bottom:4px;" id="pv-name">-</div>
-        <div style="font-size:12px;color:#888;margin-bottom:12px;" id="pv-meta">-</div>
-        <div style="background:#e8eff6;border:1px solid rgba(74,110,143,0.2);border-radius:12px;padding:12px;">
-          <div style="font-size:9px;font-weight:700;color:#4a6e8f;text-transform:uppercase;margin-bottom:5px;">&#129302; KI-Briefing</div>
-          <div style="font-size:13px;color:#2a4a6a;line-height:1.7;" id="pv-ki">-</div>
-        </div>
+      <!-- KI Gespraechsmappe -->
+      <div style="margin:12px 16px 0;background:#e8eff6;border:1px solid rgba(74,110,143,0.2);border-radius:14px;padding:14px;">
+        <div style="font-size:10px;font-weight:700;color:#4a6e8f;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">&#129302; Deine Gespraeachsmappe</div>
+        <div style="font-size:13px;color:#2a4a6a;line-height:1.7;" id="pv-ki">-</div>
       </div>
-      <div class="rcard" style="margin-bottom:20px;">
-        <div class="rcard-h">&#127919; Handlungsempfehlungen</div>
-        <div id="pv-recs"></div>
+      <!-- 3 Ziele -->
+      <div class="sec">Deine 3 Ziele heute</div>
+      <div style="display:flex;flex-direction:column;gap:8px;padding:0 16px;" id="pv-ziele"></div>
+      <!-- Checkliste -->
+      <div class="sec">Mitnahme-Checkliste</div>
+      <div style="display:flex;flex-direction:column;gap:6px;padding:0 16px;" id="pv-check"></div>
+      <!-- Aktionen -->
+      <div style="display:flex;gap:8px;padding:14px 16px 80px;">
+        <div onclick="gotoView('view-br','nav-b')" style="flex:1;background:#4e7c54;border-radius:12px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#127908;</div><div style="font-size:11px;font-weight:700;color:#fff;">Bericht</div></div>
+        <div onclick="gotoView('view-kp','nav-k')" style="flex:1;background:#f0ede6;border:1px solid #dedad2;border-radius:12px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128100;</div><div style="font-size:11px;font-weight:700;color:#888888;">Profil</div></div>
       </div>
     </div>
 
@@ -227,21 +232,30 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
       <div class="detailbar">
         <div class="backbtn" onclick="gotoView('view-kp','nav-k')">&#8249;</div>
-        <div style="flex:1;text-align:center;font-size:14px;font-weight:700;">Besuchsbericht</div>
+        <div style="flex:1;text-align:center;font-size:14px;font-weight:700;">&#127908; Nachbereitung</div>
+        <div style="font-size:11px;color:#888888;" id="br-name-top">-</div>
       </div>
-      <div style="padding:14px 20px;">
-        <div style="font-size:18px;font-weight:800;margin-bottom:4px;" id="br-name">-</div>
-        <div style="font-size:12px;color:#888;margin-bottom:16px;" id="br-meta">-</div>
-        <div style="display:flex;justify-content:center;margin-bottom:16px;">
-          <button onclick="startRec()" id="rec-btn" style="width:88px;height:88px;border-radius:50%;background:#b87052;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(184,112,82,0.3);">
-            <div style="font-size:28px;">&#127908;</div>
-            <div style="font-size:10px;font-weight:700;color:#fff;margin-top:3px;">Aufnahme</div>
-          </button>
+      <div id="rec-area" style="margin:14px 16px 0;background:#b87052;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;" onclick="startRec()">
+        <span style="font-size:26px;">&#127908;</span>
+        <div style="flex:1;">
+          <div style="font-size:15px;font-weight:800;color:#fff;" id="rec-title">Aufnahme starten</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-top:2px;" id="rec-sub">Tippe und sprich deinen Bericht frei ein</div>
         </div>
-        <div style="background:#e8eff6;border:1px solid rgba(74,110,143,0.2);border-radius:12px;padding:12px;">
-          <div style="font-size:9px;font-weight:700;color:#4a6e8f;text-transform:uppercase;margin-bottom:5px;">&#129302; KI-Zusammenfassung</div>
-          <div style="font-size:13px;color:#2a4a6a;line-height:1.6;" id="br-ki">Nach der Aufnahme: Themen, Zusagen, Follow-Ups automatisch.</div>
-        </div>
+        <div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:15px;" id="rec-icon">&#9654;</div>
+      </div>
+      <div class="sec">KI-Ergebnis</div>
+      <div class="rcard">
+        <div class="rcard-h"><span>Zusammenfassung</span><span style="background:#4e7c54;color:#fff;border-radius:999px;font-size:9px;font-weight:700;padding:2px 8px;" id="br-ki-badge">Bereit</span></div>
+        <div style="padding:12px 14px;font-size:13px;color:#2a4a6a;line-height:1.6;" id="br-ki">Starte die Aufnahme um eine KI-Zusammenfassung zu erhalten.</div>
+      </div>
+      <div class="rcard">
+        <div class="rcard-h">&#9989; Zusagen &amp; Follow-Ups</div>
+        <div id="br-followup" style="padding:12px 14px;font-size:13px;color:#888888;">Nach der Aufnahme erscheinen hier automatisch erkannte Zusagen.</div>
+      </div>
+      <div style="display:flex;gap:8px;padding:12px 16px 80px;">
+        <div style="flex:1;background:#e8eff6;border:1px solid rgba(74,110,143,0.2);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128231;</div><div style="font-size:11px;font-weight:600;color:#4a6e8f;">Outlook</div></div>
+        <div style="flex:1;background:#e8f5e9;border:1px solid rgba(46,125,50,0.2);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128172;</div><div style="font-size:11px;font-weight:600;color:#2e7d32;">WhatsApp</div></div>
+        <div style="flex:1;background:#fce4ec;border:1px solid rgba(233,30,99,0.2);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#9989;</div><div style="font-size:11px;font-weight:600;color:#e91e63;">Asana</div></div>
       </div>
     </div>
 
@@ -249,29 +263,70 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
     <div class="view" id="view-tour">
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
       <div class="topbar">
-        <div>
-          <div class="topbar-title">Tour & Route</div>
-          <div class="topbar-sub" id="tsub">Meine Tourenplanung</div>
-        </div>
+        <div><div class="topbar-title">Tour heute</div><div class="topbar-sub" id="tsub">Meine Tourenplanung</div></div>
+        <div style="background:#4e7c54;color:#fff;border-radius:999px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;">Maps &#8599;</div>
       </div>
-      <div style="margin:0 16px 12px;background:#faf9f6;border:1px solid #dedad2;border-left:3px solid #4e7c54;border-radius:14px;padding:14px;">
+      <div class="kpirow" style="margin-bottom:4px;">
+        <div class="kpitile"><div class="kpival" id="t-km">-</div><div class="kpilbl">Kilometer</div></div>
+        <div class="kpitile"><div class="kpival" id="t-pot" style="color:#4e7c54;">-</div><div class="kpilbl">Potenzial</div></div>
+        <div class="kpitile"><div class="kpival" id="t-stopps">-</div><div class="kpilbl">Stopps</div></div>
+      </div>
+      <div style="margin:0 16px 12px;background:#eaf2eb;border:1px solid rgba(78,124,84,0.3);border-radius:14px;padding:14px;">
         <div style="font-size:10px;font-weight:700;color:#4e7c54;text-transform:uppercase;margin-bottom:6px;">&#9989; Naechster Stopp</div>
         <div style="font-size:15px;font-weight:700;" id="tour-next">-</div>
-        <div style="font-size:12px;color:#888;margin-top:2px;" id="tour-next-sub">Nach Login laden...</div>
+        <div style="font-size:12px;color:#888888;margin-top:2px;" id="tour-next-sub">Nach Login laden...</div>
+        <div style="display:flex;gap:8px;margin-top:10px;">
+          <div onclick="tourJetztBesuchen()" style="flex:1;background:#4e7c54;border-radius:10px;padding:8px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;color:#fff;">&#128100; Profil</div>
+          <div style="flex:1;background:#fff;border:1px solid rgba(78,124,84,0.3);border-radius:10px;padding:8px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;color:#4e7c54;">&#128506; Route</div>
+          <div style="flex:1;background:#fff;border:1px solid rgba(78,124,84,0.3);border-radius:10px;padding:8px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;color:#4e7c54;">&#128172; WA</div>
+        </div>
       </div>
-      <div style="padding:0 16px 80px;" id="tour-list"><div style="color:#888;font-size:13px;text-align:center;padding:20px;">Nach Login erscheinen Top-Kunden.</div></div>
+      <div style="margin:0 16px 12px;background:#faf9f6;border:1px solid #dedad2;border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="gotoView('view-radar','nav-t')">
+        <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">&#128225;</span><div><div style="font-size:13px;font-weight:700;">Umkreis-Radar</div><div style="font-size:11px;color:#888888;">Kunden in der Naehe</div></div></div>
+        <span style="color:#888888;font-size:18px;">&#8250;</span>
+      </div>
+      <div id="tour-list"></div>
+    </div>
+
+    <!-- RADAR -->
+    <div class="view" id="view-radar">
+      <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
+      <div class="detailbar">
+        <div class="backbtn" onclick="gotoView('view-tour','nav-t')">&#8249;</div>
+        <div style="flex:1;text-align:center;font-size:14px;font-weight:700;">&#128225; Umkreis-Radar</div>
+      </div>
+      <div style="margin:12px 16px;background:#eaf2eb;border:1px solid rgba(78,124,84,0.22);border-radius:14px;padding:13px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <div><div style="font-size:11px;color:#888888;margin-bottom:2px;">Aktueller Standort</div><div style="font-size:14px;font-weight:700;" id="radar-ort">Dein Gebiet</div></div>
+          <div style="background:#4e7c54;color:#fff;border-radius:10px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer;">Aktualisieren</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <div style="flex:1;background:rgba(255,255,255,0.7);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:16px;font-weight:800;color:#4e7c54;" id="radar-cnt">-</div><div style="font-size:10px;color:#888888;">Prio A</div></div>
+          <div style="flex:1;background:rgba(255,255,255,0.7);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:16px;font-weight:800;color:#4a6e8f;" id="radar-pot">-</div><div style="font-size:10px;color:#888888;">Potenzial</div></div>
+        </div>
+      </div>
+      <div id="radar-list" style="padding-bottom:80px;"></div>
     </div>
 
     <!-- CHAT -->
-    <div class="view" id="view-chat">
+    <div class="view" id="view-chat" style="display:flex;flex-direction:column;">
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
       <div class="topbar">
         <div>
-          <div class="topbar-title">&#129302; KI-Assistent</div>
-          <div class="topbar-sub">MotoForce Intelligence</div>
+          <div class="topbar-title">KI-Assistent</div>
+          <div class="topbar-sub">Frag mich alles ueber deine Kunden</div>
         </div>
+        <span style="font-size:22px;">&#129302;</span>
       </div>
-      <div class="chatmsgs" id="chat-msgs">
+      <!-- Quick Buttons -->
+      <div style="display:flex;gap:7px;padding:0 16px 10px;overflow-x:auto;scrollbar-width:none;">
+        <div onclick="quickChat('Wer heute?')" style="background:#f0ede6;border:1px solid #dedad2;border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;">Wer heute?</div>
+        <div onclick="quickChat('Top Kunden')" style="background:#f0ede6;border:1px solid #dedad2;border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;">Top Kunden</div>
+        <div onclick="quickChat('Reaktivierungen')" style="background:#f5e8e0;border:1px solid rgba(158,92,58,0.3);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;color:#9e5c3a;">Reaktivierungen</div>
+        <div onclick="quickChat('Auslandskunden')" style="background:#f5ede0;border:1px solid rgba(160,120,64,0.3);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;color:#a07840;">Ausland</div>
+        <div onclick="quickChat('Wachstum')" style="background:#eaf2eb;border:1px solid rgba(78,124,84,0.3);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;color:#4e7c54;">Wachstum</div>
+      </div>
+      <div class="chatmsgs" id="chat-msgs" style="flex:1;overflow-y:auto;">
         <div class="msg bot">
           <div class="msgav">&#129302;</div>
           <div class="bubble" id="chat-welcome">Bitte zuerst anmelden.</div>
@@ -702,6 +757,11 @@ function sChat() {
     bd.innerHTML='<div class="msgav">&#129302;</div><div class="bubble">'+text+'</div>';
     hist.appendChild(bd);hist.scrollTop=99999;
   },500);
+}
+
+function quickChat(q) {
+  var inp=document.getElementById('cinp');
+  if(inp){inp.value=q;sChat();}
 }
 
 // INIT
