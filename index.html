@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>MotoForce AI</title>
+<title>MotoForce AI v9</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{background:#e8e4de;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
@@ -93,7 +93,7 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
     <div class="lov" id="lov">
       <div style="font-size:26px;font-weight:800;margin-bottom:2px;">Moto<span style="color:#b87052;">Force</span> AI</div>
       <div style="font-size:12px;color:#888;margin-bottom:4px;">Sales Intelligence</div>
-      <div style="font-size:11px;color:#4e7c54;margin-bottom:18px;" id="dst">&#10003; 208 Kunden bereit</div>
+      <div style="font-size:11px;color:#4e7c54;margin-bottom:18px;" id="dst">&#10003; 208 Kunden bereit &middot; v9</div>
       <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:10px;">Vertreter waehlen</div>
       <div id="vlist"></div>
       <button class="lbtn" id="lbtn" disabled onclick="doLogin()">&#8594; Anmelden</button>
@@ -374,7 +374,9 @@ function gotoView(id, navId) {
 
 // LOGIN
 function buildLogin() {
+  console.log('buildLogin START - KA length:', KA.length);
   var list = document.getElementById('vlist');
+  if(!list){console.log('ERROR: vlist not found'); return;}
   list.innerHTML = '';
   for(var v = 1; v <= 9; v++) {
     var ks = [], u25 = 0, u26 = 0;
@@ -827,7 +829,7 @@ function respondChat(ql, hist) {
     var btns=['Top Kunden','Reaktivierungen','Wachstum','Ausland','Wer heute?'];
     text+='<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;">';
     for(var i=0;i<btns.length;i++) {
-      text+='<div onclick="quickChat(''+btns[i]+'')" style="background:#f0ede6;border:1px solid #dedad2;border-radius:8px;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer;">'+btns[i]+'</div>';
+      text+='<div onclick="quickChat(this.textContent)" style="background:#f0ede6;border:1px solid #dedad2;border-radius:8px;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer;">'+btns[i]+'</div>';
     }
     text+='</div>';
   }
