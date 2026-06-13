@@ -841,6 +841,62 @@ function respondChat(ql, hist) {
 }
 
 
+
+// &#9472;&#9472; TOUR HELPER &#9472;&#9472;
+function tourJetztBesuchen() {
+  var topA=MK.filter(function(k){return k.prio==='A';})[0]||MK[0];
+  if(topA) openKP(topA.nr);
+}
+
+// &#9472;&#9472; WHATSAPP INTEGRATION &#9472;&#9472;
+function openWA(typ, k) {
+  if(!k) k = AK;
+  if(!k) { openWAPanel(typ,'','-'); return; }
+  var text = '';
+  if(typ==='besuch') {
+    text = 'Guten Tag,%0A%0AIch bin heute in Ihrer N&#228;he und wuerde gerne kurz vorbeikommen.%0AHaben Sie noch etwas Zeit?%0A%0AMit freundlichen Gr&#252;&#223;en%0A'+VN[CV];
+  } else if(typ==='nachbesuch') {
+    text = 'Guten Tag,%0A%0AVielen Dank fuer das gute Gespraech heute!%0AIch sende Ihnen das besprochene Angebot in K&#252;rze zu.%0A%0AMit freundlichen Gr&#252;&#223;en%0A'+VN[CV];
+  } else {
+    text = 'Guten Tag, hier ist '+VN[CV]+' von MotoForce.';
+  }
+  var tel = k.tel || '';
+  if(tel) {
+    tel = tel.replace(/[^0-9]/g,'');
+    if(tel.charAt(0)==='0') tel = '49'+tel.substring(1);
+    window.open('https://wa.me/'+tel+'?text='+text, '_blank');
+  } else {
+    openWAPanel(typ, text, k.name);
+  }
+}
+
+function openWAPanel(typ, text, name) {
+  var panel = document.getElementById('wa-panel');
+  if(!panel) return;
+  var decoded = text.replace(/%0A/g,'\n').replace(/%C3%BC/g,'ue');
+  var ta = document.getElementById('wa-msg-text');
+  if(ta) ta.value = decoded;
+  var ti = document.getElementById('wa-panel-title');
+  if(ti) ti.innerHTML = '&#128172; WhatsApp an '+name;
+  panel.style.display = 'flex';
+}
+
+function sendWAPanel() {
+  var tel = document.getElementById('wa-tel-input');
+  var msg = document.getElementById('wa-msg-text');
+  if(!tel||!msg) return;
+  var t = tel.value.replace(/[^0-9]/g,'');
+  if(!t) { alert('Bitte Telefonnummer eingeben'); return; }
+  if(t.charAt(0)==='0') t = '49'+t.substring(1);
+  window.open('https://wa.me/'+t+'?text='+encodeURIComponent(msg.value), '_blank');
+  closeWAPanel();
+}
+
+function closeWAPanel() {
+  var panel = document.getElementById('wa-panel');
+  if(panel) panel.style.display = 'none';
+}
+
 // INIT
 buildLogin();
 </script>
