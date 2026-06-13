@@ -378,22 +378,86 @@ function buildHome() {
     '<div class="kpitile"><div class="kpival" style="color:#4a6e8f;">'+aC+'</div><div class="kpilbl">Prio A</div></div>'+
     (dn>0?'<div class="kpitile"><div class="kpival" style="color:#9e5c3a;">'+dn+'</div><div class="kpilbl">R&#252;ckgang</div></div>':'');
   buildRecs();
+  // Aufgaben-Zaehler
+  var reaktiv=MK.filter(function(k){return k.trend<-15;}).length;
+  var xsell=MK.filter(function(k){return k.prio==='A'&&k.trend>5;}).length;
+  var prioA=MK.filter(function(k){return k.prio==='A';}).length;
+  var ex=document.getElementById('h-aufg');
+  if(!ex){
+    var s=document.createElement('div');
+    s.id='h-aufg';
+    s.style.cssText='margin:0 16px 8px;background:#f0ede6;border-radius:10px;padding:9px 13px;display:flex;gap:16px;';
+    s.innerHTML='<div style="text-align:center;flex:1;"><div style="font-size:18px;font-weight:800;color:#9e5c3a;">'+reaktiv+'</div><div style="font-size:10px;color:#888888;font-weight:600;">Reaktivierung</div></div><div style="width:1px;background:#dedad2;"></div><div style="text-align:center;flex:1;"><div style="font-size:18px;font-weight:800;color:#4e7c54;">'+xsell+'</div><div style="font-size:10px;color:#888888;font-weight:600;">Cross-Sell</div></div><div style="width:1px;background:#dedad2;"></div><div style="text-align:center;flex:1;"><div style="font-size:18px;font-weight:800;color:#4a6e8f;">'+prioA+'</div><div style="font-size:10px;color:#888888;font-weight:600;">Prio A</div></div>';
+    var hrec=document.getElementById('hrec');
+    if(hrec&&hrec.parentNode)hrec.parentNode.insertBefore(s,hrec);
+  }
 }
 
 function buildRecs() {
   var el = document.getElementById('hrec'); if(!el||!MK.length) return;
+  var MARKEN = ['DID','SBS','Supersprox','Yuasa','All Balls','ProTaper'];
   var recs = [];
-  for(var i=0;i<MK.length&&recs.length<1;i++){if(MK[i].trend<-15)recs.push({k:MK[i],c:'#9e5c3a',a:'Reaktivierung dringend',g:'&#9660;'+Math.abs(MK[i].trend)+'%'});}
-  for(var i=0;i<MK.length&&recs.length<3;i++){if(MK[i].prio==='A'&&MK[i].trend>0)recs.push({k:MK[i],c:'#4e7c54',a:'Cross-Sell Potenzial',g:'&#9650;'+MK[i].trend+'%'});}
-  if(!recs.length&&MK.length) recs.push({k:MK[0],c:'#b87052',a:'Top-Kunde',g:'Umsatz '+fmtT(MK[0].u25)});
+
+  // 1. Reaktivierung: Kunden mit starkem Rueckgang
+  for(var i=0;i<MK.length&&recs.length<1;i++){
+    if(MK[i].trend < -15) recs.push({
+      k:MK[i], c:'#9e5c3a', icon:'&#9888;',
+      label:'Reaktivierung dringend',
+      aktion:'Persoenlicher Besuch mit Loesung notwendig.',
+      pot:'Risiko: Verlust von '+fmtT(Math.round(MK[i].u25*0.3/1000)*1000)+'/Jahr',
+      tag:'DRINGEND'
+    });
+  }
+
+  // 2. Cross-Sell: Prio A mit Wachstum
+  for(var i=0;i<MK.length&&recs.length<3;i++){
+    if(MK[i].prio==='A' && MK[i].trend>5) recs.push({
+      k:MK[i], c:'#4e7c54', icon:'&#127919;',
+      label:'Cross-Sell Potenzial',
+      aktion:MARKEN[i%6]+' und '+MARKEN[(i+1)%6]+' noch nicht im Sortiment.',
+      pot:'Potenzial: +'+fmtT(Math.round(MK[i].u25*0.18/1000)*1000)+'/Jahr',
+      tag:'PRIO A'
+    });
+  }
+
+  // 3. Entwicklung: Prio B nahe Schwelle
+  for(var i=0;i<MK.length&&recs.length<3;i++){
+    if(MK[i].prio==='B' && MK[i].u25 > 25000) recs.push({
+      k:MK[i], c:'#4a6e8f', icon:'&#128200;',
+      label:'Zu Prio A entwickeln',
+      aktion:'Noch '+fmtT(40000-MK[i].u25)+' bis Jahresschwelle Prio A.',
+      pot:'Ziel: Prio A bis Q4',
+      tag:'PRIO B'
+    });
+  }
+
+  // 4. Fallback
+  if(!recs.length && MK.length) recs.push({
+    k:MK[0], c:'#b87052', icon:'&#128269;',
+    label:'Gebiet analysieren',
+    aktion:'Top-Kunde besuchen und Sortiment pruefen.',
+    pot:'Umsatz 2025: '+fmtT(MK[0].u25),
+    tag:'TOP'
+  });
+
   var h = '';
   for(var i=0;i<recs.length&&i<3;i++) {
-    h += '<div style="margin:0 16px 10px;background:#faf9f6;border:1px solid #dedad2;border-left:3px solid '+recs[i].c+';border-radius:14px;padding:14px;cursor:pointer;" onclick="openKP('+recs[i].k.nr+')">'+
-      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'+
-      '<div style="font-size:14px;font-weight:700;">'+recs[i].k.name+'</div>'+
-      '<span class="badge '+(recs[i].k.prio==='A'?'ba':recs[i].k.prio==='B'?'bb':'bc')+'">'+recs[i].k.prio+'</span></div>'+
-      '<div style="font-size:12px;color:#888888;margin-bottom:6px;">'+recs[i].k.ort+' &#183; '+fmtT(recs[i].k.u25)+' 2025</div>'+
-      '<div style="background:#f0ede6;border-radius:8px;padding:7px 10px;font-size:12px;"><b>'+recs[i].a+'</b> &#8212; '+recs[i].g+'</div></div>';
+    var r = recs[i];
+    h += '<div style="margin:0 16px 10px;background:#faf9f6;border:1px solid #dedad2;border-left:3px solid '+r.c+';border-radius:14px;padding:14px;cursor:pointer;active:background:#f0ede6;" onclick="openKP('+r.k.nr+')">' +
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">' +
+      '<div style="display:flex;gap:8px;align-items:center;">' +
+      '<span style="font-size:20px;">'+r.icon+'</span>' +
+      '<div>' +
+      '<div style="font-size:14px;font-weight:800;">'+r.k.name+'</div>' +
+      '<div style="font-size:11px;color:#888888;margin-top:1px;">'+r.k.ort+' &#183; '+fmtT(r.k.u25)+' 2025</div>' +
+      '</div></div>' +
+      '<span style="background:'+r.c+';color:#fff;border-radius:999px;font-size:9px;font-weight:800;padding:2px 7px;flex-shrink:0;">'+r.tag+'</span>' +
+      '</div>' +
+      '<div style="background:#f0ede6;border-radius:10px;padding:9px 11px;">' +
+      '<div style="font-size:11px;font-weight:700;color:'+r.c+';text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;">'+r.label+'</div>' +
+      '<div style="font-size:12px;color:#444440;line-height:1.5;margin-bottom:4px;">'+r.aktion+'</div>' +
+      '<div style="font-size:11px;font-weight:700;color:'+r.c+';">'+r.pot+'</div>' +
+      '</div></div>';
   }
   el.innerHTML = h;
 }
