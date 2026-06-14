@@ -33,9 +33,9 @@ body{background:linear-gradient(135deg,#b8d0e8 0%,#cce0f0 50%,#a8c8e0 100%);min-
 .logout-btn:hover{background:rgba(30,80,140,0.06);}
 
 /* SIDEBAR NAV */
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;color:rgba(26,53,96,0.7);transition:all 0.15s;}
-.nav-item:hover{background:rgba(255,255,255,0.6);color:#1a3560;}
-.nav-item.active{background:rgba(255,255,255,0.85);color:#1a3560;box-shadow:0 2px 8px rgba(30,80,140,0.1);}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;color:rgba(26,53,96,0.7);transition:all 0.15s;border:1px solid transparent;}
+.nav-item:hover{background:rgba(255,255,255,0.7);border-color:rgba(30,80,140,0.15);color:#1a3560;box-shadow:0 2px 8px rgba(30,80,140,0.08);}
+.nav-item.active{background:rgba(255,255,255,0.88);border-color:rgba(30,80,140,0.2);color:#1a3560;box-shadow:0 2px 12px rgba(30,80,140,0.12);}
 .nav-item .ni{font-size:18px;width:24px;text-align:center;}
 .nav-section{font-size:10px;font-weight:700;color:rgba(30,70,120,0.35);text-transform:uppercase;letter-spacing:0.1em;padding:12px 12px 4px;}
 
@@ -1011,33 +1011,86 @@ function closeDetail(){
   if(panel)panel.classList.remove('open');
 }
 
+function drillKunden(filter){
+  gotoView('view-kunden','nav-k');
+  setTimeout(function(){
+    document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
+    var d=MK.slice();
+    if(filter==='A'){d=d.filter(function(k){return k.prio==='A';});}
+    else if(filter==='dn'){d=d.filter(function(k){return k.trend<-10;}).sort(function(a,b){return a.trend-b.trend;});}
+    else if(filter==='xsell'){d=d.filter(function(k){return k.prio==='A'&&k.trend>5;});}
+    else if(filter==='intl'){d=d.filter(function(k){return k.land!=='DE';});}
+    buildKundenDesktop(d);
+    // Highlight matching filter button
+    var map={A:'Prio A',dn:'\u25BC R\u00fcckgang',xsell:'\u25B2 Wachstum',intl:'\uD83C\uDF0D Ausland'};
+    document.querySelectorAll('.filter-btn').forEach(function(b){
+      if(b.textContent.trim()===map[filter])b.classList.add('active');
+    });
+  },100);
+}
+
 function buildHome(){
   var u25=0,u24=0,u26=0,aC=0,dn=0;
   for(var i=0;i<MK.length;i++){u25+=MK[i].u25;u24+=MK[i].u24;u26+=MK[i].u26;if(MK[i].prio==='A')aC++;if(MK[i].trend<-10)dn++;}
-  var tr=u24>0?Math.round((u25/u24-1)*100):0;
+  var tr25=u24>0?Math.round((u25/u24-1)*100):0;
   var saison=u25>0?Math.round(((u26*2)/u25-1)*100):0;
+  var xsell=MK.filter(function(k){return k.prio==='A'&&k.trend>5;}).length;
+  var intl=MK.filter(function(k){return k.land!=='DE';}).length;
   var hr=new Date().getHours();
   var gr=hr<12?'Guten Morgen':hr<17?'Guten Tag':'Guten Abend';
   var gg=document.getElementById('hgr');if(gg)gg.textContent=gr+', '+VN[CV];
-  var gs=document.getElementById('hsb');if(gs)gs.innerHTML=MK.length+' Kunden &middot; '+fmt(u25)+' Umsatz 2025';
+  var gs=document.getElementById('hsb');if(gs)gs.innerHTML=MK.length+' Kunden &middot; Gebiet '+VI[CV];
   var av=document.getElementById('uav-top');if(av)av.textContent=VI[CV];
   var ki=document.getElementById('hkpi');
   if(ki)ki.innerHTML=
-    '<div class="kpi-tile"><div class="kpi-val">'+fmt(u25)+'</div><div class="kpi-lbl">Umsatz 2025</div><div class="kpi-delta '+(tr>=0?'up':'dn')+'">'+(tr>=0?'&#9650;':'&#9660;')+Math.abs(tr)+'% vs 2024</div></div>'+
-    '<div class="kpi-tile"><div class="kpi-val">'+fmt(u26)+'</div><div class="kpi-lbl">2026 YTD</div><div class="kpi-delta '+(saison>=0?'up':'dn')+'">'+(saison>=0?'&#9650;':'&#9660;')+Math.abs(saison)+'% Saison</div></div>'+
-    '<div class="kpi-tile"><div class="kpi-val" style="color:var(--blue);">'+aC+'</div><div class="kpi-lbl">Prio A</div></div>'+
-    (dn>0?'<div class="kpi-tile"><div class="kpi-val" style="color:var(--red);">'+dn+'</div><div class="kpi-lbl">Reaktivierungen</div></div>':'');
+    // Umsatz 2024
+    '<div class="kpi-tile" style="cursor:default;">'+
+      '<div class="kpi-val">'+fmt(u24)+'</div>'+
+      '<div class="kpi-lbl">Umsatz 2024</div>'+
+    '</div>'+
+    // Umsatz 2025 mit Delta vs 2024
+    '<div class="kpi-tile" style="cursor:default;">'+
+      '<div class="kpi-val">'+fmt(u25)+'</div>'+
+      '<div class="kpi-lbl">Umsatz 2025</div>'+
+      '<div class="kpi-delta '+(tr25>=0?'up':'dn')+'">'+(tr25>=0?'&#9650;':'&#9660;')+Math.abs(tr25)+'% vs 2024</div>'+
+    '</div>'+
+    // YTD 2026 mit Saison-Trend vs 2025
+    '<div class="kpi-tile" style="cursor:default;">'+
+      '<div class="kpi-val">'+fmt(u26)+'</div>'+
+      '<div class="kpi-lbl">2026 YTD</div>'+
+      '<div class="kpi-delta '+(saison>=0?'up':'dn')+'">'+(saison>=0?'&#9650;':'&#9660;')+Math.abs(saison)+'% vs 2025</div>'+
+    '</div>'+
+    // Prio A - klickbar
+    '<div class="kpi-tile" onclick="drillKunden(&quot;A&quot;)" style="cursor:pointer;" title="Prio A Kunden anzeigen">'+
+      '<div class="kpi-val" style="color:var(--blue);">'+aC+'</div>'+
+      '<div class="kpi-lbl">Prio A &#8594;</div>'+
+    '</div>'+
+    // Reaktivierungen - klickbar
+    (dn>0?'<div class="kpi-tile" onclick="drillKunden(&quot;dn&quot;)" style="cursor:pointer;" title="R&#252;ckl&#228;ufige Kunden anzeigen">'+
+      '<div class="kpi-val" style="color:var(--red);">'+dn+'</div>'+
+      '<div class="kpi-lbl">Reaktivierungen &#8594;</div>'+
+    '</div>':'');
   buildRecs();
   var ov=document.getElementById('home-overview');
   if(ov){
-    var xsell=MK.filter(function(k){return k.prio==='A'&&k.trend>5;}).length;
-    var intl=MK.filter(function(k){return k.land!=='DE';}).length;
-    ov.innerHTML='<div style="display:flex;flex-direction:column;gap:8px;">'+
-      '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--glass-border);"><span style="font-size:13px;color:var(--muted);">Prio A</span><span style="font-size:13px;font-weight:700;color:#1a3560;">'+aC+' Kunden</span></div>'+
-      '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--glass-border);"><span style="font-size:13px;color:var(--muted);">Reaktivierungen</span><span style="font-size:13px;font-weight:700;color:var(--red);">'+dn+' Kunden</span></div>'+
-      '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--glass-border);"><span style="font-size:13px;color:var(--muted);">Cross-Sell</span><span style="font-size:13px;font-weight:700;color:var(--green);">'+xsell+' Kunden</span></div>'+
-      '<div style="display:flex;justify-content:space-between;padding:8px 0;"><span style="font-size:13px;color:var(--muted);">Ausland</span><span style="font-size:13px;font-weight:700;color:var(--gold);">'+intl+' Kunden</span></div>'+
-      '</div>';
+    ov.innerHTML='<div id="ov-grid" style="display:flex;flex-direction:column;gap:4px;"></div>';
+    var ovData=[
+      {f:'A',icon:'&#9733;',label:'Prio A',val:aC,col:'var(--blue)'},
+      {f:'dn',icon:'&#9660;',label:'Reaktivierungen',val:dn,col:'var(--red)'},
+      {f:'xsell',icon:'&#9650;',label:'Cross-Sell',val:xsell,col:'var(--green)'},
+      {f:'intl',icon:'&#127758;',label:'Ausland',val:intl,col:'var(--gold)'}
+    ];
+    var ovGrid=document.getElementById('ov-grid');
+    for(var oi=0;oi<ovData.length;oi++){
+      var row=document.createElement('div');
+      row.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:10px;cursor:pointer;border:1px solid rgba(30,80,140,0.07);margin-bottom:2px;background:rgba(255,255,255,0.45);transition:all 0.15s;';
+      row.innerHTML='<span style="font-size:13px;color:var(--muted);">'+ovData[oi].icon+' '+ovData[oi].label+'</span>'+
+        '<span style="font-size:13px;font-weight:700;color:'+ovData[oi].col+';">'+ovData[oi].val+' Kunden &#8594;</span>';
+      row.onmouseover=function(){this.style.background='rgba(255,255,255,0.75)';this.style.borderColor='rgba(30,80,140,0.15)';};
+      row.onmouseout=function(){this.style.background='rgba(255,255,255,0.45)';this.style.borderColor='rgba(30,80,140,0.07)';};
+      (function(filter){row.onclick=function(){drillKunden(filter);};})(ovData[oi].f);
+      ovGrid.appendChild(row);
+    }
   }
 }
 
