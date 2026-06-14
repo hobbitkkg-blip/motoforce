@@ -536,7 +536,7 @@ function fillPV(k){
   var zh='';for(var i=0;i<ziele.length;i++){zh+='<div style="background:#faf9f6;border:1px solid #dedad2;border-radius:12px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start;margin-bottom:8px;"><div style="width:24px;height:24px;border-radius:50%;background:#b87052;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">'+(i+1)+'</div><div style="font-size:13px;line-height:1.5;">'+ziele[i]+'</div></div>';}
   si('pv-ziele',zh);
   var MARKEN=['DID Ketten','SBS Bremsbelag','Supersprox Katalog','Visitenkarten & Preisliste'];
-  var ch='';for(var i=0;i<MARKEN.length;i++){ch+='<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f0ede6;"><div style="width:20px;height:20px;border-radius:5px;border:2px solid #b87052;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;" onclick="this.style.background=this.style.background?'':' #b87052';this.innerHTML=this.innerHTML?'':' &#10003;';">&#x200B;</div><div style="font-size:13px;">'+MARKEN[i]+'</div></div>';}
+  var ch='';for(var i=0;i<MARKEN.length;i++){ch+='<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f0ede6;"><div style="width:20px;height:20px;border-radius:5px;border:2px solid #b87052;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;" onclick="var el=this;el.style.background=el.style.background?\"\":\"#b87052\";el.innerHTML=el.innerHTML?\"\":\"&#10003;\";">&#x200B;</div><div style="font-size:13px;">'+MARKEN[i]+'</div></div>';}
   si('pv-check',ch);
 }
 
