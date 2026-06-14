@@ -11,86 +11,77 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="/icon-192.png">
 <title>MotoForce AI v9</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-body{background:#e8e4de;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
-.phone{width:390px;height:844px;background:#f2f0eb;border-radius:48px;position:relative;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.3);}
+<style>*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{background:linear-gradient(135deg,#0d1b3e 0%,#1a2a52 50%,#0a1628 100%);background-attachment:fixed;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+.phone{width:390px;height:844px;background:linear-gradient(160deg,#1e2d4a 0%,#253558 40%,#1a2438 100%);border-radius:48px;position:relative;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,10,0.6),0 0 0 1px rgba(180,220,255,0.08),inset 0 1px 0 rgba(255,255,255,0.06);}
 :root{
-  --clay:#b87052;--clay-bg:#f7ede7;
-  --green:#4e7c54;--green-bg:#eaf2eb;
-  --blue:#4a6e8f;--blue-bg:#e8eff6;
-  --warn:#9e5c3a;--warn-bg:#f5e8e0;
-  --amber:#a07840;--amber-bg:#f5ede0;
-  --muted:#888880;--border:#dedad2;
-  --surface:#faf9f6;--surface2:#f0ede6;
-  --text:#1a1a18;
+  --clay:#c8a55a;--clay-bg:rgba(200,165,90,0.12);
+  --green:#5dbf8a;--green-bg:rgba(93,191,138,0.1);
+  --blue:#6ab0ff;--blue-bg:rgba(106,176,255,0.1);
+  --warn:#ff8a65;--warn-bg:rgba(255,138,101,0.1);
+  --amber:#c8a55a;--amber-bg:rgba(200,165,90,0.1);
+  --muted:rgba(200,220,255,0.4);--border:rgba(200,220,255,0.1);
+  --surface:rgba(200,220,255,0.05);--surface2:rgba(200,220,255,0.08);
+  --text:#e8f2ff;
+  --glass:rgba(180,210,255,0.06);
+  --glass-border:rgba(180,210,255,0.12);
+  --gold:rgba(200,165,90,0.85);
+  --gold-border:rgba(200,165,90,0.3);
 }
-/* STATUSBAR */
-.sb{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:12px;font-weight:600;flex-shrink:0;}
-/* SCREEN */
+.sb{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:12px;font-weight:600;color:rgba(200,220,255,0.5);flex-shrink:0;}
 .screen{position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;}
-/* VIEWS */
 .view{display:none;min-height:100%;padding-bottom:80px;}
 .view.active{display:block;}
-/* LOGIN */
-.lov{position:absolute;top:0;left:0;right:0;bottom:0;background:#f2f0eb;z-index:100;display:flex;flex-direction:column;padding:22px 20px 20px;overflow-y:auto;}
-.vit{background:#faf9f6;border:1.5px solid #dedad2;border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;cursor:pointer;margin-bottom:7px;transition:border-color 0.1s;}
-.vit.sel{border-color:#b87052;background:#f7ede7;}
-.vav{width:36px;height:36px;border-radius:50%;background:#b87052;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;}
-.lbtn{width:100%;background:#b87052;color:#fff;border:none;border-radius:13px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;margin-top:10px;}
-.lbtn:disabled{opacity:0.38;cursor:not-allowed;}
-/* TOPBAR */
+.lov{position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(160deg,#1e2d4a 0%,#253558 40%,#1a2438 100%);z-index:100;display:flex;flex-direction:column;padding:22px 20px 20px;overflow-y:auto;}
+.vit{background:var(--glass);border:1px solid var(--glass-border);border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;cursor:pointer;margin-bottom:7px;transition:border-color 0.15s,background 0.15s;}
+.vit.sel{border-color:var(--gold-border);background:rgba(200,165,90,0.1);}
+.vav{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,rgba(200,165,90,0.3),rgba(200,165,90,0.15));border:1px solid var(--gold-border);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;}
+.lbtn{width:100%;background:linear-gradient(135deg,rgba(200,165,90,0.25),rgba(200,165,90,0.15));color:var(--gold);border:1px solid var(--gold-border);border-radius:13px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;margin-top:10px;letter-spacing:0.02em;}
+.lbtn:disabled{opacity:0.3;cursor:not-allowed;}
 .topbar{padding:12px 20px 10px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
-.topbar-title{font-size:20px;font-weight:800;}
+.topbar-title{font-size:20px;font-weight:800;color:#e8f2ff;}
 .topbar-sub{font-size:12px;color:var(--muted);margin-top:1px;}
-.avatar{width:36px;height:36px;border-radius:50%;background:#b87052;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;}
-.sec{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;padding:8px 20px 4px;}
-/* KPIS */
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,rgba(200,165,90,0.3),rgba(200,165,90,0.15));border:1px solid var(--gold-border);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;}
+.sec{font-size:10px;font-weight:700;color:rgba(180,210,255,0.35);text-transform:uppercase;letter-spacing:0.12em;padding:8px 20px 4px;}
 .kpirow{display:flex;gap:8px;padding:0 16px 12px;overflow-x:auto;scrollbar-width:none;}
-.kpitile{flex:0 0 auto;background:#faf9f6;border:1px solid #dedad2;border-radius:14px;padding:12px 14px;min-width:90px;}
-.kpival{font-size:20px;font-weight:800;}
+.kpitile{flex:0 0 auto;background:var(--glass);border:1px solid var(--glass-border);border-radius:14px;padding:12px 14px;min-width:90px;}
+.kpival{font-size:20px;font-weight:800;color:#e8f2ff;}
 .kpilbl{font-size:10px;color:var(--muted);margin-top:2px;}
 .kpidelta{font-size:10px;margin-top:3px;font-weight:700;}
-.kpidelta.up{color:#4e7c54;} .kpidelta.dn{color:#9e5c3a;}
-/* KUNDEN LISTE */
-.kcl{display:flex;align-items:center;padding:10px 20px;border-bottom:1px solid #dedad2;cursor:pointer;gap:10px;}
-.kcl:active{background:rgba(0,0,0,0.03);}
-.kfl{background:#f0ede6;border:1px solid #dedad2;border-radius:999px;padding:4px 12px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;}
-/* DETAIL */
-.detailbar{display:flex;align-items:center;padding:8px 16px;border-bottom:1px solid #dedad2;gap:8px;}
-.backbtn{font-size:22px;cursor:pointer;color:var(--clay);padding:4px;font-weight:700;}
-/* BADGES */
+.kpidelta.up{color:#5dbf8a;} .kpidelta.dn{color:#ff8a65;}
+.kcl{display:flex;align-items:center;padding:10px 20px;border-bottom:1px solid var(--glass-border);cursor:pointer;gap:10px;}
+.kcl:active{background:rgba(200,220,255,0.04);}
+.kfl{background:var(--glass);border:1px solid var(--glass-border);border-radius:999px;padding:4px 12px;font-size:11px;font-weight:600;color:rgba(200,220,255,0.7);cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.detailbar{display:flex;align-items:center;padding:8px 16px;border-bottom:1px solid var(--glass-border);gap:8px;}
+.backbtn{font-size:22px;cursor:pointer;color:var(--gold);padding:4px;font-weight:700;}
 .badge{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;font-size:10px;font-weight:800;padding:2px 7px;}
-.ba{background:#f7ede7;color:#b87052;}
-.bb{background:#e8eff6;color:#4a6e8f;}
-.bc{background:#f0ede6;color:#888880;}
-/* NAVBAR */
-.navbar{position:absolute;bottom:0;left:0;right:0;height:80px;background:#faf9f6;border-top:1px solid #dedad2;display:flex;align-items:flex-start;padding-top:8px;}
+.ba{background:rgba(200,165,90,0.15);color:var(--gold);border:1px solid var(--gold-border);}
+.bb{background:rgba(106,176,255,0.1);color:#6ab0ff;border:1px solid rgba(106,176,255,0.2);}
+.bc{background:rgba(200,220,255,0.06);color:rgba(200,220,255,0.5);border:1px solid var(--glass-border);}
+.navbar{position:absolute;bottom:0;left:0;right:0;height:80px;background:rgba(10,18,40,0.92);backdrop-filter:blur(20px);border-top:1px solid rgba(200,220,255,0.08);display:flex;align-items:flex-start;padding-top:8px;}
 .navbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:6px 0;}
 .navbtn .ni{font-size:22px;}
-.navbtn .nl{font-size:10px;font-weight:600;color:#888880;}
-.navbtn.active .nl{color:#b87052;}
-/* CHAT */
+.navbtn .nl{font-size:10px;font-weight:600;color:rgba(180,210,255,0.4);}
+.navbtn.active .nl{color:var(--gold);}
 .chatarea{display:flex;flex-direction:column;height:calc(100vh - 200px);max-height:600px;}
 .chatmsgs{flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:10px;}
 .msg{display:flex;gap:8px;align-items:flex-end;}
 .msg.user{flex-direction:row-reverse;}
-.bubble{background:#faf9f6;border:1px solid #dedad2;border-radius:16px;padding:10px 13px;font-size:13px;line-height:1.5;max-width:82%;}
-.msg.user .bubble{background:#b87052;color:#fff;border:none;}
-.chatbar{display:flex;gap:8px;padding:10px 16px;border-top:1px solid #dedad2;}
-.chatinput{flex:1;background:#f0ede6;border:1px solid #dedad2;border-radius:20px;padding:9px 14px;font-size:13px;outline:none;}
-.chatsend{width:36px;height:36px;border-radius:50%;background:#b87052;color:#fff;border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.bubble{background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;padding:10px 13px;font-size:13px;line-height:1.5;max-width:82%;color:#e8f2ff;}
+.msg.user .bubble{background:linear-gradient(135deg,rgba(200,165,90,0.25),rgba(200,165,90,0.15));border-color:var(--gold-border);color:#f0d890;}
+.chatbar{display:flex;gap:8px;padding:10px 16px;border-top:1px solid var(--glass-border);background:rgba(15,25,55,0.6);}
+.chatinput{flex:1;background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:9px 14px;font-size:13px;outline:none;color:#e8f2ff;}
+.chatinput::placeholder{color:rgba(180,210,255,0.3);}
+.chatsend{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,rgba(200,165,90,0.35),rgba(200,165,90,0.2));border:1px solid var(--gold-border);color:var(--gold);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .msgav{font-size:20px;flex-shrink:0;}
-/* DETAIL CARDS */
 .mkr{display:flex;gap:8px;margin-bottom:12px;}
-.mkp{flex:1;background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:9px 11px;}
-.mkpv{font-size:16px;font-weight:800;}
-.mkpl{font-size:10px;color:#888;margin-top:2px;}
-.rcard{background:#faf9f6;border:1px solid #dedad2;border-radius:14px;margin:0 16px 12px;overflow:hidden;}
-.rcard-h{padding:11px 14px;border-bottom:1px solid #dedad2;font-size:13px;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
-.ritem{display:flex;align-items:flex-start;gap:12px;padding:11px 14px;border-bottom:1px solid #dedad2;}
-.ritem:last-child{border-bottom:none;}
-</style>
+.mkp{flex:1;background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;padding:9px 11px;}
+.mkpv{font-size:16px;font-weight:800;color:#e8f2ff;}
+.mkpl{font-size:10px;color:var(--muted);margin-top:2px;}
+.rcard{background:var(--glass);border:1px solid var(--glass-border);border-radius:14px;margin:0 16px 12px;overflow:hidden;}
+.rcard-h{padding:11px 14px;border-bottom:1px solid var(--glass-border);font-size:13px;font-weight:700;color:#e8f2ff;display:flex;justify-content:space-between;align-items:center;}
+.ritem{display:flex;align-items:flex-start;gap:12px;padding:11px 14px;border-bottom:1px solid var(--glass-border);color:#c8dcf8;}
+.ritem:last-child{border-bottom:none;}</style>
 </head>
 <body>
 <div class="phone">
@@ -98,10 +89,10 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
 
     <!-- LOGIN -->
     <div class="lov" id="lov">
-      <div style="font-size:26px;font-weight:800;margin-bottom:2px;">Moto<span style="color:#b87052;">Force</span> AI</div>
-      <div style="font-size:12px;color:#888;margin-bottom:4px;">Sales Intelligence</div>
-      <div style="font-size:11px;color:#4e7c54;margin-bottom:18px;" id="dst">&#10003; 208 Kunden bereit &middot; v9</div>
-      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:10px;">Vertreter waehlen</div>
+      <div style="font-size:26px;font-weight:800;margin-bottom:2px;color:#e8f2ff;">Moto<span style="color:var(--gold);">Force</span> AI</div>
+      <div style="font-size:12px;color:rgba(200,220,255,0.45);margin-bottom:4px;">Sales Intelligence</div>
+      <div style="font-size:11px;color:rgba(93,191,138,0.8);margin-bottom:18px;" id="dst">&#10003; 208 Kunden bereit &middot; v9</div>
+      <div style="font-size:10px;font-weight:700;color:rgba(200,220,255,0.35);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:10px;">Vertreter waehlen</div>
       <div id="vlist"></div>
       <button class="lbtn" id="lbtn" disabled onclick="doLogin()">&#8594; Anmelden</button>
     </div>
@@ -124,17 +115,17 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
       <div id="hrec" style="padding-bottom:8px;"></div>
       <div class="sec">Navigation</div>
       <div style="display:flex;gap:10px;padding:0 16px 16px;">
-        <div style="flex:1;background:#faf9f6;border:1px solid #dedad2;border-left:3px solid #b87052;border-radius:14px;padding:14px;cursor:pointer;text-align:center;" onclick="gotoView('view-kunden','nav-k')">
+        <div style="flex:1;background:var(--glass);border:1px solid var(--glass-border);border-left:3px solid rgba(200,165,90,0.5);border-radius:14px;padding:14px;cursor:pointer;text-align:center;" onclick="gotoView('view-kunden','nav-k')">
           <div style="font-size:22px;margin-bottom:4px;">&#128101;</div>
-          <div style="font-size:12px;font-weight:700;">Kunden</div>
+          <div style="font-size:12px;font-weight:700;color:rgba(220,235,255,0.85);">Kunden</div>
         </div>
-        <div style="flex:1;background:#faf9f6;border:1px solid #dedad2;border-left:3px solid #4e7c54;border-radius:14px;padding:14px;cursor:pointer;text-align:center;" onclick="gotoView('view-tour','nav-t')">
+        <div style="flex:1;background:var(--glass);border:1px solid var(--glass-border);border-left:3px solid rgba(93,191,138,0.5);border-radius:14px;padding:14px;cursor:pointer;text-align:center;" onclick="gotoView('view-tour','nav-t')">
           <div style="font-size:22px;margin-bottom:4px;">&#128506;</div>
-          <div style="font-size:12px;font-weight:700;">Tour</div>
+          <div style="font-size:12px;font-weight:700;color:rgba(220,235,255,0.85);">Tour</div>
         </div>
-        <div style="flex:1;background:#faf9f6;border:1px solid #dedad2;border-left:3px solid #4a6e8f;border-radius:14px;padding:14px;cursor:pointer;text-align:center;" onclick="gotoView('view-chat','nav-c')">
+        <div style="flex:1;background:var(--glass);border:1px solid var(--glass-border);border-left:3px solid rgba(106,176,255,0.5);border-radius:14px;padding:14px;cursor:pointer;text-align:center;" onclick="gotoView('view-chat','nav-c')">
           <div style="font-size:22px;margin-bottom:4px;">&#128172;</div>
-          <div style="font-size:12px;font-weight:700;">KI-Chat</div>
+          <div style="font-size:12px;font-weight:700;color:rgba(220,235,255,0.85);">KI-Chat</div>
         </div>
       </div>
     </div>
@@ -157,12 +148,12 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
         <div class="kfl" onclick="fk(event,'dn')">&#x25BC; Rueckgang</div>
         <div class="kfl" onclick="fk(event,'intl')">&#127758; Ausland</div>
       </div>
-      <div style="display:flex;align-items:center;padding:5px 20px;background:#f0ede6;border-bottom:1px solid #dedad2;border-top:1px solid #dedad2;">
-        <div style="flex:1;font-size:10px;font-weight:700;color:#888;text-transform:uppercase;">Kunde</div>
-        <span style="width:52px;text-align:right;font-size:10px;font-weight:700;color:#888;padding-right:8px;border-right:1px solid #dedad2;">2025</span>
-        <span style="width:40px;text-align:right;font-size:10px;font-weight:700;color:#888;padding-left:8px;">Trend</span>
+      <div style="display:flex;align-items:center;padding:5px 20px;background:rgba(200,220,255,0.04);border-bottom:1px solid rgba(200,220,255,0.08);border-top:1px solid rgba(200,220,255,0.08);">
+        <div style="flex:1;font-size:10px;font-weight:700;color:rgba(200,220,255,0.4);text-transform:uppercase;">Kunde</div>
+        <span style="width:52px;text-align:right;font-size:10px;font-weight:700;color:rgba(200,220,255,0.4);padding-right:8px;border-right:1px solid rgba(200,220,255,0.1);">2025</span>
+        <span style="width:40px;text-align:right;font-size:10px;font-weight:700;color:rgba(200,220,255,0.4);padding-left:8px;">Trend</span>
       </div>
-      <div id="kdl"><div style="padding:20px;text-align:center;color:#888;font-size:13px;">Lade Kunden...</div></div>
+      <div id="kdl"><div style="padding:20px;text-align:center;color:rgba(200,220,255,0.4);font-size:13px;">Lade Kunden...</div></div>
     </div>
 
     <!-- KUNDENPROFIL -->
@@ -170,15 +161,15 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
       <div class="detailbar">
         <div class="backbtn" onclick="gotoView('view-kunden','nav-k')">&#8249;</div>
-        <div style="flex:1;text-align:center;font-size:14px;font-weight:700;">Kundenprofil</div>
+        <div style="flex:1;text-align:center;font-size:14px;font-weight:700;color:#e8f2ff;">Kundenprofil</div>
         <span class="badge ba" id="kp-badge">A</span>
       </div>
-      <div style="padding:14px 20px;background:#faf9f6;border-bottom:1px solid #dedad2;">
-        <div style="font-size:21px;font-weight:800;margin-bottom:4px;" id="kp-name">-</div>
-        <div style="font-size:12px;color:#888;margin-bottom:12px;" id="kp-meta">-</div>
-        <div style="background:#e8eff6;border:1px solid rgba(74,110,143,0.2);border-radius:12px;padding:11px 13px;margin-bottom:12px;">
-          <div style="font-size:9px;font-weight:700;color:#4a6e8f;text-transform:uppercase;margin-bottom:5px;">&#129302; KI-Briefing</div>
-          <div style="font-size:13px;color:#2a4a6a;line-height:1.6;" id="kp-ki">-</div>
+      <div style="padding:14px 20px;background:rgba(200,220,255,0.03);border-bottom:1px solid rgba(200,220,255,0.08);">
+        <div style="font-size:21px;font-weight:800;margin-bottom:4px;color:#e8f2ff;" id="kp-name">-</div>
+        <div style="font-size:12px;color:rgba(200,220,255,0.45);margin-bottom:12px;" id="kp-meta">-</div>
+        <div style="background:rgba(106,176,255,0.07);border:1px solid rgba(106,176,255,0.15);border-radius:12px;padding:11px 13px;margin-bottom:12px;">
+          <div style="font-size:9px;font-weight:700;color:rgba(106,176,255,0.6);text-transform:uppercase;margin-bottom:5px;">&#129302; KI-Briefing</div>
+          <div style="font-size:13px;color:rgba(200,220,255,0.85);line-height:1.6;" id="kp-ki">-</div>
         </div>
         <div class="mkr">
           <div class="mkp"><div class="mkpv" id="kp-25">-</div><div class="mkpl">2025</div></div>
@@ -189,18 +180,18 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
       </div>
       <div style="padding:10px 16px;">
         <div style="display:flex;gap:8px;">
-          <div onclick="gotoView('view-pv','nav-k')" style="flex:1;background:#b87052;border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128203;</div><div style="font-size:11px;font-weight:700;color:#fff;">Vorbereitung</div></div>
-          <div onclick="gotoView('view-br','nav-k')" style="flex:1;background:#4e7c54;border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#127908;</div><div style="font-size:11px;font-weight:700;color:#fff;">Bericht</div></div>
-          <div style="flex:1;background:#f0ede6;border:1px solid #dedad2;border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128222;</div><div style="font-size:11px;font-weight:700;color:#888;">Anrufen</div></div>
+          <div onclick="gotoView('view-pv','nav-k')" style="flex:1;background:linear-gradient(135deg,rgba(200,165,90,0.25),rgba(200,165,90,0.15));border:1px solid rgba(200,165,90,0.3);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128203;</div><div style="font-size:11px;font-weight:700;color:rgba(200,165,90,0.9);">Vorbereitung</div></div>
+          <div onclick="gotoView('view-br','nav-k')" style="flex:1;background:linear-gradient(135deg,rgba(93,191,138,0.2),rgba(93,191,138,0.1));border:1px solid rgba(93,191,138,0.3);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#127908;</div><div style="font-size:11px;font-weight:700;color:rgba(93,191,138,0.9);">Bericht</div></div>
+          <div style="flex:1;background:rgba(200,220,255,0.05);border:1px solid rgba(200,220,255,0.1);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128222;</div><div style="font-size:11px;font-weight:700;color:rgba(200,220,255,0.5);">Anrufen</div></div>
         </div>
       </div>
       <div class="rcard">
-        <div class="rcard-h"><span>&#129302; KI-Empfehlungen</span><span id="kp-rec-cnt" style="color:#4e7c54;font-size:10px;font-weight:700;"></span></div>
+        <div class="rcard-h"><span>&#129302; KI-Empfehlungen</span><span id="kp-rec-cnt" style="color:rgba(93,191,138,0.8);font-size:10px;font-weight:700;"></span></div>
         <div id="kp-recs"></div>
       </div>
       <div class="rcard">
-        <div class="rcard-h"><span>&#127991; Marken-Analyse</span><span style="font-size:10px;color:#888888;">&#10003; vorhanden &nbsp; &#9675; fehlt</span></div>
-        <div id="kp-marken"><div style="padding:12px 14px;color:#888888;font-size:12px;">Wird geladen...</div></div>
+        <div class="rcard-h"><span>&#127991; Marken-Analyse</span><span style="font-size:10px;color:rgba(200,220,255,0.4);">&#10003; vorhanden &nbsp; &#9675; fehlt</span></div>
+        <div id="kp-marken"><div style="padding:12px 14px;color:rgba(200,220,255,0.45);font-size:12px;">Wird geladen...</div></div>
       </div>
       <div class="rcard" style="margin-bottom:20px;">
         <div class="rcard-h">&#128202; Umsatz-Verlauf</div>
@@ -213,13 +204,13 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
       <div class="detailbar">
         <div class="backbtn" onclick="gotoView('view-kp','nav-k')">&#8249;</div>
-        <div style="flex:1;text-align:center;font-size:14px;font-weight:700;">&#128203; Vorbereitung</div>
-        <div style="font-size:11px;color:#888888;" id="pv-name-top">-</div>
+        <div style="flex:1;text-align:center;font-size:14px;font-weight:700;color:#e8f2ff;">&#128203; Vorbereitung</div>
+        <div style="font-size:11px;color:rgba(200,220,255,0.45);" id="pv-name-top">-</div>
       </div>
       <!-- KI Gespraechsmappe -->
-      <div style="margin:12px 16px 0;background:#e8eff6;border:1px solid rgba(74,110,143,0.2);border-radius:14px;padding:14px;">
-        <div style="font-size:10px;font-weight:700;color:#4a6e8f;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">&#129302; Deine Gespraeachsmappe</div>
-        <div style="font-size:13px;color:#2a4a6a;line-height:1.7;" id="pv-ki">-</div>
+      <div style="margin:12px 16px 0;background:rgba(106,176,255,0.07);border:1px solid rgba(106,176,255,0.12);border-radius:14px;padding:14px;">
+        <div style="font-size:10px;font-weight:700;color:rgba(106,176,255,0.6);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">&#129302; Deine Gespraeachsmappe</div>
+        <div style="font-size:13px;color:rgba(200,220,255,0.85);line-height:1.7;" id="pv-ki">-</div>
       </div>
       <!-- 3 Ziele -->
       <div class="sec">Deine 3 Ziele heute</div>
@@ -229,8 +220,8 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
       <div style="display:flex;flex-direction:column;gap:6px;padding:0 16px;" id="pv-check"></div>
       <!-- Aktionen -->
       <div style="display:flex;gap:8px;padding:14px 16px 80px;">
-        <div onclick="gotoView('view-br','nav-b')" style="flex:1;background:#4e7c54;border-radius:12px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#127908;</div><div style="font-size:11px;font-weight:700;color:#fff;">Bericht</div></div>
-        <div onclick="gotoView('view-kp','nav-k')" style="flex:1;background:#f0ede6;border:1px solid #dedad2;border-radius:12px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128100;</div><div style="font-size:11px;font-weight:700;color:#888888;">Profil</div></div>
+        <div onclick="gotoView('view-br','nav-b')" style="flex:1;background:linear-gradient(135deg,rgba(93,191,138,0.2),rgba(93,191,138,0.1));border:1px solid rgba(93,191,138,0.3);border-radius:12px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#127908;</div><div style="font-size:11px;font-weight:700;color:rgba(93,191,138,0.9);">Bericht</div></div>
+        <div onclick="gotoView('view-kp','nav-k')" style="flex:1;background:rgba(200,220,255,0.05);border:1px solid rgba(200,220,255,0.1);border-radius:12px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128100;</div><div style="font-size:11px;font-weight:700;color:rgba(200,220,255,0.6);">Profil</div></div>
       </div>
     </div>
 
@@ -239,33 +230,33 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
       <div class="detailbar">
         <div class="backbtn" onclick="gotoView('view-kp','nav-k')">&#8249;</div>
-        <div style="flex:1;text-align:center;font-size:14px;font-weight:700;">&#127908; Nachbereitung</div>
-        <div style="font-size:11px;color:#888888;" id="br-name-top">-</div>
+        <div style="flex:1;text-align:center;font-size:14px;font-weight:700;color:#e8f2ff;">&#127908; Nachbereitung</div>
+        <div style="font-size:11px;color:rgba(200,220,255,0.45);" id="br-name-top">-</div>
       </div>
-      <div id="rec-area" style="margin:14px 16px 0;background:#b87052;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;" onclick="startRec()">
+      <div id="rec-area" style="margin:14px 16px 0;background:linear-gradient(135deg,rgba(200,165,90,0.25),rgba(200,165,90,0.15));border:1px solid rgba(200,165,90,0.3);border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;" onclick="startRec()">
         <span style="font-size:26px;">&#127908;</span>
         <div style="flex:1;">
-          <div style="font-size:15px;font-weight:800;color:#fff;" id="rec-title">Aufnahme starten</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-top:2px;" id="rec-sub">Tippe und sprich deinen Bericht frei ein</div>
+          <div style="font-size:15px;font-weight:800;color:#fff;" id="rec-title" style="color:rgba(200,165,90,0.95);">Aufnahme starten</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-top:2px;" id="rec-sub" style="color:rgba(200,165,90,0.55);">Tippe und sprich deinen Bericht frei ein</div>
         </div>
-        <div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:15px;" id="rec-icon">&#9654;</div>
+        <div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:15px;" id="rec-icon" style="color:rgba(200,165,90,0.7);">&#9654;</div>
       </div>
       <div class="sec">KI-Ergebnis</div>
       <div class="rcard">
-        <div class="rcard-h"><span>Zusammenfassung</span><span style="background:#4e7c54;color:#fff;border-radius:999px;font-size:9px;font-weight:700;padding:2px 8px;" id="br-ki-badge">Bereit</span></div>
-        <div style="padding:12px 14px;font-size:13px;color:#2a4a6a;line-height:1.6;" id="br-ki">Starte die Aufnahme um eine KI-Zusammenfassung zu erhalten.</div>
+        <div class="rcard-h"><span>Zusammenfassung</span><span style="background:rgba(93,191,138,0.2);color:rgba(93,191,138,0.9);border:1px solid rgba(93,191,138,0.3);border-radius:999px;font-size:9px;font-weight:700;padding:2px 8px;" id="br-ki-badge">Bereit</span></div>
+        <div style="padding:12px 14px;font-size:13px;color:rgba(200,220,255,0.85);line-height:1.6;" id="br-ki">Starte die Aufnahme um eine KI-Zusammenfassung zu erhalten.</div>
       </div>
       <div class="rcard">
         <div class="rcard-h">&#9989; Zusagen &amp; Follow-Ups</div>
-        <div id="br-followup" style="padding:12px 14px;font-size:13px;color:#888888;">Nach der Aufnahme erscheinen hier automatisch erkannte Zusagen.</div>
+        <div id="br-followup" style="padding:12px 14px;font-size:13px;color:rgba(200,220,255,0.45);">Nach der Aufnahme erscheinen hier automatisch erkannte Zusagen.</div>
       </div>
       <!-- Integration Buttons -->
       <div class="sec">Weiterleiten &amp; Teilen</div>
       <div style="display:flex;gap:8px;padding:0 16px 12px;">
-        <div onclick="openInt('outlook')" style="flex:1;background:#e8eff6;border:1px solid rgba(74,110,143,0.2);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128231;</div><div style="font-size:11px;font-weight:600;color:#4a6e8f;">Outlook</div></div>
-        <div onclick="openInt('wa')" style="flex:1;background:#e8f5e9;border:1px solid rgba(46,125,50,0.2);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128172;</div><div style="font-size:11px;font-weight:600;color:#2e7d32;">WhatsApp</div></div>
-        <div onclick="openInt('asana')" style="flex:1;background:#fce4ec;border:1px solid rgba(233,30,99,0.2);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#9989;</div><div style="font-size:11px;font-weight:600;color:#c2185b;">Asana</div></div>
-        <div onclick="openInt('teams')" style="flex:1;background:#ede7f6;border:1px solid rgba(103,58,183,0.2);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128172;</div><div style="font-size:11px;font-weight:600;color:#673ab7;">Teams</div></div>
+        <div onclick="openInt('outlook')" style="flex:1;background:rgba(106,176,255,0.07);border:1px solid rgba(106,176,255,0.15);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128231;</div><div style="font-size:11px;font-weight:600;color:#6ab0ff;">Outlook</div></div>
+        <div onclick="openInt('wa')" style="flex:1;background:rgba(93,191,138,0.08);border:1px solid rgba(93,191,138,0.2);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128172;</div><div style="font-size:11px;font-weight:600;color:#2e7d32;">WhatsApp</div></div>
+        <div onclick="openInt('asana')" style="flex:1;background:rgba(255,100,150,0.08);border:1px solid rgba(255,100,150,0.2);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#9989;</div><div style="font-size:11px;font-weight:600;color:#c2185b;">Asana</div></div>
+        <div onclick="openInt('teams')" style="flex:1;background:rgba(160,120,255,0.08);border:1px solid rgba(160,120,255,0.2);border-radius:12px;padding:11px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128172;</div><div style="font-size:11px;font-weight:600;color:#673ab7;">Teams</div></div>
       </div>
       <div style="height:80px;"></div>
     </div>
@@ -275,26 +266,26 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
       <div class="topbar">
         <div><div class="topbar-title">Tour heute</div><div class="topbar-sub" id="tsub">Meine Tourenplanung</div></div>
-        <div style="background:#4e7c54;color:#fff;border-radius:999px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;">Maps &#8599;</div>
+        <div style="background:rgba(93,191,138,0.15);border:1px solid rgba(93,191,138,0.25);color:rgba(93,191,138,0.9);border-radius:999px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;">Maps &#8599;</div>
       </div>
       <div class="kpirow" style="margin-bottom:4px;">
         <div class="kpitile"><div class="kpival" id="t-km">-</div><div class="kpilbl">Kilometer</div></div>
         <div class="kpitile"><div class="kpival" id="t-pot" style="color:#4e7c54;">-</div><div class="kpilbl">Potenzial</div></div>
         <div class="kpitile"><div class="kpival" id="t-stopps">-</div><div class="kpilbl">Stopps</div></div>
       </div>
-      <div style="margin:0 16px 12px;background:#eaf2eb;border:1px solid rgba(78,124,84,0.3);border-radius:14px;padding:14px;">
-        <div style="font-size:10px;font-weight:700;color:#4e7c54;text-transform:uppercase;margin-bottom:6px;">&#9989; Naechster Stopp</div>
-        <div style="font-size:15px;font-weight:700;" id="tour-next">-</div>
-        <div style="font-size:12px;color:#888888;margin-top:2px;" id="tour-next-sub">Nach Login laden...</div>
+      <div style="margin:0 16px 12px;background:rgba(93,191,138,0.07);border:1px solid rgba(93,191,138,0.15);border-radius:14px;padding:14px;">
+        <div style="font-size:10px;font-weight:700;color:rgba(93,191,138,0.7);text-transform:uppercase;margin-bottom:6px;">&#9989; Naechster Stopp</div>
+        <div style="font-size:15px;font-weight:700;color:#e8f2ff;" id="tour-next">-</div>
+        <div style="font-size:12px;color:rgba(200,220,255,0.45);margin-top:2px;" id="tour-next-sub">Nach Login laden...</div>
         <div style="display:flex;gap:8px;margin-top:10px;">
-          <div onclick="tourJetztBesuchen()" style="flex:1;background:#4e7c54;border-radius:10px;padding:8px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;color:#fff;">&#128100; Profil</div>
-          <div style="flex:1;background:#fff;border:1px solid rgba(78,124,84,0.3);border-radius:10px;padding:8px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;color:#4e7c54;">&#128506; Route</div>
+          <div onclick="tourJetztBesuchen()" style="flex:1;background:rgba(93,191,138,0.15);border:1px solid rgba(93,191,138,0.25);border-radius:10px;padding:8px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;color:#fff;">&#128100; Profil</div>
+          <div style="flex:1;background:rgba(200,220,255,0.05);border:1px solid rgba(200,220,255,0.1);border-radius:10px;padding:8px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;color:#4e7c54;">&#128506; Route</div>
           <div onclick="openWA('besuch',null)" style="flex:1;background:#e8f5e9;border:1px solid rgba(46,125,50,0.2);border-radius:10px;padding:8px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;color:#2e7d32;">&#128172; WA</div>
         </div>
       </div>
-      <div style="margin:0 16px 12px;background:#faf9f6;border:1px solid #dedad2;border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="gotoView('view-radar','nav-t')">
-        <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">&#128225;</span><div><div style="font-size:13px;font-weight:700;">Umkreis-Radar</div><div style="font-size:11px;color:#888888;">Kunden in der Naehe</div></div></div>
-        <span style="color:#888888;font-size:18px;">&#8250;</span>
+      <div style="margin:0 16px 12px;background:rgba(200,220,255,0.05);border:1px solid rgba(200,220,255,0.1);border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="gotoView('view-radar','nav-t')">
+        <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">&#128225;</span><div><div style="font-size:13px;font-weight:700;color:#e8f2ff;">Umkreis-Radar</div><div style="font-size:11px;color:rgba(200,220,255,0.45);">Kunden in der Naehe</div></div></div>
+        <span style="color:rgba(200,220,255,0.45);font-size:18px;">&#8250;</span>
       </div>
       <div id="tour-list"></div>
     </div>
@@ -304,16 +295,16 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
       <div class="detailbar">
         <div class="backbtn" onclick="gotoView('view-tour','nav-t')">&#8249;</div>
-        <div style="flex:1;text-align:center;font-size:14px;font-weight:700;">&#128225; Umkreis-Radar</div>
+        <div style="flex:1;text-align:center;font-size:14px;font-weight:700;color:#e8f2ff;">&#128225; Umkreis-Radar</div>
       </div>
-      <div style="margin:12px 16px;background:#eaf2eb;border:1px solid rgba(78,124,84,0.22);border-radius:14px;padding:13px;">
+      <div style="margin:12px 16px;background:rgba(93,191,138,0.06);border:1px solid rgba(93,191,138,0.12);border-radius:14px;padding:13px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-          <div><div style="font-size:11px;color:#888888;margin-bottom:2px;">Aktueller Standort</div><div style="font-size:14px;font-weight:700;" id="radar-ort">Dein Gebiet</div></div>
-          <div style="background:#4e7c54;color:#fff;border-radius:10px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer;">Aktualisieren</div>
+          <div><div style="font-size:11px;color:rgba(200,220,255,0.45);margin-bottom:2px;">Aktueller Standort</div><div style="font-size:14px;font-weight:700;color:#e8f2ff;" id="radar-ort">Dein Gebiet</div></div>
+          <div style="background:rgba(93,191,138,0.15);border:1px solid rgba(93,191,138,0.25);color:rgba(93,191,138,0.9);border-radius:10px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer;">Aktualisieren</div>
         </div>
         <div style="display:flex;gap:8px;">
-          <div style="flex:1;background:rgba(255,255,255,0.7);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:16px;font-weight:800;color:#4e7c54;" id="radar-cnt">-</div><div style="font-size:10px;color:#888888;">Prio A</div></div>
-          <div style="flex:1;background:rgba(255,255,255,0.7);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:16px;font-weight:800;color:#4a6e8f;" id="radar-pot">-</div><div style="font-size:10px;color:#888888;">Potenzial</div></div>
+          <div style="flex:1;background:rgba(200,220,255,0.06);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:16px;font-weight:800;color:#4e7c54;" id="radar-cnt">-</div><div style="font-size:10px;color:rgba(200,220,255,0.45);">Prio A</div></div>
+          <div style="flex:1;background:rgba(200,220,255,0.06);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:16px;font-weight:800;color:#4a6e8f;" id="radar-pot">-</div><div style="font-size:10px;color:rgba(200,220,255,0.45);">Potenzial</div></div>
         </div>
       </div>
       <div id="radar-list" style="padding-bottom:80px;"></div>
@@ -331,11 +322,11 @@ body{background:#e8e4de;display:flex;justify-content:center;align-items:center;m
       </div>
       <!-- Quick Buttons -->
       <div style="display:flex;gap:7px;padding:0 16px 10px;overflow-x:auto;scrollbar-width:none;">
-        <div onclick="quickChat('Wer heute?')" style="background:#f0ede6;border:1px solid #dedad2;border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;">Wer heute?</div>
-        <div onclick="quickChat('Top Kunden')" style="background:#f0ede6;border:1px solid #dedad2;border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;">Top Kunden</div>
-        <div onclick="quickChat('Reaktivierungen')" style="background:#f5e8e0;border:1px solid rgba(158,92,58,0.3);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;color:#9e5c3a;">Reaktivierungen</div>
-        <div onclick="quickChat('Auslandskunden')" style="background:#f5ede0;border:1px solid rgba(160,120,64,0.3);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;color:#a07840;">Ausland</div>
-        <div onclick="quickChat('Wachstum')" style="background:#eaf2eb;border:1px solid rgba(78,124,84,0.3);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;color:#4e7c54;">Wachstum</div>
+        <div onclick="quickChat('Wer heute?')" style="background:var(--glass);border:1px solid var(--glass-border);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;">Wer heute?</div>
+        <div onclick="quickChat('Top Kunden')" style="background:var(--glass);border:1px solid var(--glass-border);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;">Top Kunden</div>
+        <div onclick="quickChat('Reaktivierungen')" style="background:rgba(255,138,101,0.08);border:1px solid rgba(255,138,101,0.2);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;color:#ff8a65;">Reaktivierungen</div>
+        <div onclick="quickChat('Auslandskunden')" style="background:rgba(200,165,90,0.08);border:1px solid rgba(200,165,90,0.2);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;color:rgba(200,165,90,0.85);">Ausland</div>
+        <div onclick="quickChat('Wachstum')" style="background:rgba(93,191,138,0.08);border:1px solid rgba(93,191,138,0.2);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;color:rgba(93,191,138,0.85);">Wachstum</div>
       </div>
       <div class="chatmsgs" id="chat-msgs" style="flex:1;overflow-y:auto;">
         <div class="msg bot">
@@ -382,7 +373,7 @@ function buildLogin(){
     var tc=tr>=0?'#4e7c54':'#9e5c3a';
     var ts=tr>=0?'&#x25B2;'+tr+'%':'&#x25BC;'+Math.abs(tr)+'%';
     var el=document.createElement('div'); el.className='vit';
-    el.innerHTML='<div class="vav">'+VI[v]+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700;">'+VN[v]+'</div><div style="font-size:11px;color:#888888;">'+ks.length+' Kunden &middot; <span style="color:'+tc+';font-weight:700;">'+ts+'</span></div></div><div style="font-size:13px;font-weight:700;color:#4e7c54;">&euro;'+Math.round(u25/1000)+'k</div>';
+    el.innerHTML='<div class="vav">'+VI[v]+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700;color:#e8f2ff;">'+VN[v]+'</div><div style="font-size:11px;color:rgba(200,220,255,0.45);">'+ks.length+' Kunden &middot; <span style="color:'+tc+';font-weight:700;">'+ts+'</span></div></div><div style="font-size:13px;font-weight:700;color:rgba(93,191,138,0.9);">&euro;'+Math.round(u25/1000)+'k</div>';
     (function(vv){el.onclick=function(){document.querySelectorAll('.vit').forEach(function(b){b.classList.remove('sel');});this.classList.add('sel');CV=vv;document.getElementById('lbtn').disabled=false;};})(v);
     list.appendChild(el);
   }
@@ -417,7 +408,7 @@ function buildHome(){
   var gg=document.getElementById('hgr'); if(gg)gg.textContent=gr+' '+VI[CV];
   var gs=document.getElementById('hsb'); if(gs)gs.innerHTML=MK.length+' Kunden &middot; '+fmt(u25)+' 2025';
   var ki=document.getElementById('hkpi');
-  if(ki)ki.innerHTML='<div class="kpitile"><div class="kpival">'+fmt(u25)+'</div><div class="kpilbl">Umsatz 2025</div><div class="kpidelta '+(tr>=0?'up':'dn')+'">'+(tr>=0?'&#9650;':'&#9660;')+Math.abs(tr)+'% Saison</div></div><div class="kpitile"><div class="kpival">'+fmt(u26)+'</div><div class="kpilbl">2026 YTD</div></div><div class="kpitile"><div class="kpival" style="color:#4a6e8f;">'+aC+'</div><div class="kpilbl">Prio A</div></div>'+(dn>0?'<div class="kpitile"><div class="kpival" style="color:#9e5c3a;">'+dn+'</div><div class="kpilbl">R&#252;ckgang</div></div>':'');
+  if(ki)ki.innerHTML='<div class="kpitile"><div class="kpival">'+fmt(u25)+'</div><div class="kpilbl">Umsatz 2025</div><div class="kpidelta '+(tr>=0?'up':'dn')+'">'+(tr>=0?'&#9650;':'&#9660;')+Math.abs(tr)+'% Saison</div></div><div class="kpitile"><div class="kpival">'+fmt(u26)+'</div><div class="kpilbl">2026 YTD</div></div><div class="kpitile"><div class="kpival" style="color:#6ab0ff;">'+aC+'</div><div class="kpilbl">Prio A</div></div>'+(dn>0?'<div class="kpitile"><div class="kpival" style="color:#ff8a65;">'+dn+'</div><div class="kpilbl">R&#252;ckgang</div></div>':'');
   buildRecs();
   var ex=document.getElementById('h-aufg');
   if(!ex){
@@ -425,8 +416,8 @@ function buildHome(){
     var xsell=MK.filter(function(k){return k.prio==='A'&&k.trend>5;}).length;
     var prioA=MK.filter(function(k){return k.prio==='A';}).length;
     var s=document.createElement('div'); s.id='h-aufg';
-    s.style.cssText='margin:0 16px 8px;background:#f0ede6;border-radius:10px;padding:9px 13px;display:flex;gap:16px;';
-    s.innerHTML='<div style="text-align:center;flex:1;"><div style="font-size:18px;font-weight:800;color:#9e5c3a;">'+reaktiv+'</div><div style="font-size:10px;color:#888888;font-weight:600;">Reaktivierung</div></div><div style="width:1px;background:#dedad2;"></div><div style="text-align:center;flex:1;"><div style="font-size:18px;font-weight:800;color:#4e7c54;">'+xsell+'</div><div style="font-size:10px;color:#888888;font-weight:600;">Cross-Sell</div></div><div style="width:1px;background:#dedad2;"></div><div style="text-align:center;flex:1;"><div style="font-size:18px;font-weight:800;color:#4a6e8f;">'+prioA+'</div><div style="font-size:10px;color:#888888;font-weight:600;">Prio A</div></div>';
+    s.style.cssText='margin:0 16px 8px;background:rgba(200,220,255,0.05);border:1px solid rgba(200,220,255,0.08);border-radius:10px;padding:9px 13px;display:flex;gap:16px;';
+    s.innerHTML='<div style="text-align:center;flex:1;"><div style="font-size:18px;font-weight:800;color:#ff8a65;">'+reaktiv+'</div><div style="font-size:10px;color:rgba(200,220,255,0.45);font-weight:600;">Reaktivierung</div></div><div style="width:1px;background:#dedad2;"></div><div style="text-align:center;flex:1;"><div style="font-size:18px;font-weight:800;color:#4e7c54;">'+xsell+'</div><div style="font-size:10px;color:rgba(200,220,255,0.45);font-weight:600;">Cross-Sell</div></div><div style="width:1px;background:#dedad2;"></div><div style="text-align:center;flex:1;"><div style="font-size:18px;font-weight:800;color:#6ab0ff;">'+prioA+'</div><div style="font-size:10px;color:rgba(200,220,255,0.45);font-weight:600;">Prio A</div></div>';
     var hrec=document.getElementById('hrec'); if(hrec&&hrec.parentNode)hrec.parentNode.insertBefore(s,hrec);
   }
 }
@@ -442,15 +433,15 @@ function buildRecs(){
   var h='';
   for(var i=0;i<recs.length&&i<3;i++){
     var r=recs[i];
-    h+='<div style="margin:0 16px 10px;background:#faf9f6;border:1px solid #dedad2;border-left:3px solid '+r.c+';border-radius:14px;padding:14px;cursor:pointer;" onclick="openKP('+r.k.nr+')">'+
+    h+='<div style="margin:0 16px 10px;background:var(--glass);border:1px solid var(--glass-border);border-left:3px solid '+r.c+';border-radius:14px;padding:14px;cursor:pointer;" onclick="openKP('+r.k.nr+')">'+
       '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">'+
       '<div style="display:flex;gap:8px;align-items:center;"><span style="font-size:20px;">'+r.icon+'</span>'+
       '<div><div style="font-size:14px;font-weight:800;">'+r.k.name+'</div>'+
-      '<div style="font-size:11px;color:#888888;">'+r.k.ort+' &middot; '+fmt(r.k.u25)+' 2025</div></div></div>'+
+      '<div style="font-size:11px;color:rgba(200,220,255,0.45);">'+r.k.ort+' &middot; '+fmt(r.k.u25)+' 2025</div></div></div>'+
       '<span style="background:'+r.c+';color:#fff;border-radius:999px;font-size:9px;font-weight:800;padding:2px 7px;">'+r.tag+'</span></div>'+
-      '<div style="background:#f0ede6;border-radius:10px;padding:9px 11px;">'+
+      '<div style="background:rgba(200,220,255,0.05);border-radius:10px;padding:9px 11px;">'+
       '<div style="font-size:11px;font-weight:700;color:'+r.c+';text-transform:uppercase;margin-bottom:3px;">'+r.label+'</div>'+
-      '<div style="font-size:12px;color:#444440;margin-bottom:4px;">'+r.aktion+'</div>'+
+      '<div style="font-size:12px;color:rgba(200,220,255,0.7);margin-bottom:4px;">'+r.aktion+'</div>'+
       '<div style="font-size:11px;font-weight:700;color:'+r.c+';">'+r.pot+'</div></div></div>';
   }
   el.innerHTML=h;
@@ -459,7 +450,7 @@ function buildRecs(){
 function buildKunden(data){
   var c=document.getElementById('kdl'); if(!c)return;
   var ks=document.getElementById('ksub'); if(ks)ks.innerHTML=data.length+' Kunden &middot; '+VN[CV];
-  if(!data.length){c.innerHTML='<div style="padding:20px;text-align:center;color:#888;">Keine Kunden.</div>';return;}
+  if(!data.length){c.innerHTML='<div style="padding:20px;text-align:center;color:rgba(200,220,255,0.4);">Keine Kunden.</div>';return;}
   var show=data.slice(0,50),h='';
   for(var i=0;i<show.length;i++){
     var k=show[i];
@@ -467,9 +458,9 @@ function buildKunden(data){
     var ts=k.trend>0?'+'+k.trend+'%':k.trend<0?'-'+Math.abs(k.trend)+'%':'0%';
     var pc=k.prio==='A'?'ba':k.prio==='B'?'bb':'bc';
     var u25s=k.u25>=1000?(k.u25/1000).toFixed(1)+'k':''+k.u25;
-    h+='<div class="kcl" onclick="openKP('+k.nr+')"><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+k.name+(k.land!=='DE'?' ('+k.land+')':'')+'</div><div style="font-size:11px;color:#888888;margin-top:2px;display:flex;align-items:center;gap:5px;">'+k.ort+' <span class="badge '+pc+'" style="font-size:9px;padding:1px 5px;">'+k.prio+'</span></div></div><div style="display:flex;align-items:center;flex-shrink:0;"><span style="width:50px;text-align:right;font-size:12px;font-weight:700;padding-right:8px;border-right:1px solid #dedad2;">'+u25s+'</span><span style="width:38px;text-align:right;font-size:11px;font-weight:600;color:'+tc+';padding-left:8px;">'+ts+'</span></div></div>';
+    h+='<div class="kcl" onclick="openKP('+k.nr+')"><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#e8f2ff;">'+k.name+(k.land!=='DE'?' ('+k.land+')':'')+'</div><div style="font-size:11px;color:rgba(200,220,255,0.45);margin-top:2px;display:flex;align-items:center;gap:5px;">'+k.ort+' <span class="badge '+pc+'" style="font-size:9px;padding:1px 5px;">'+k.prio+'</span></div></div><div style="display:flex;align-items:center;flex-shrink:0;"><span style="width:50px;text-align:right;font-size:12px;font-weight:700;padding-right:8px;border-right:1px solid rgba(200,220,255,0.08);">'+u25s+'</span><span style="width:38px;text-align:right;font-size:11px;font-weight:600;color:'+tc+';padding-left:8px;">'+ts+'</span></div></div>';
   }
-  if(data.length>50)h+='<div style="padding:10px 20px;text-align:center;font-size:12px;color:#888;">+ '+(data.length-50)+' weitere</div>';
+  if(data.length>50)h+='<div style="padding:10px 20px;text-align:center;font-size:12px;color:rgba(200,220,255,0.4);">+ '+(data.length-50)+' weitere</div>';
   c.innerHTML=h;
 }
 
@@ -520,9 +511,9 @@ function openKP(nr){
   if(!recs.length)recs.push({i:'&#128269;',t:'Bestandsanalyse',s:'Sortiment gemeinsam durchgehen.',p:'Cross-Sell '+fmt(Math.round(k.u25*0.12/1000)*1000)+'+'});
   var rc=document.getElementById('kp-rec-cnt'); if(rc)rc.innerHTML=recs.length+' offen';
   var re=document.getElementById('kp-recs');
-  if(re){var rh='';for(var i=0;i<recs.length;i++){rh+='<div style="display:flex;align-items:flex-start;gap:12px;padding:11px 14px;border-bottom:1px solid #dedad2;"><div style="font-size:20px;flex-shrink:0;">'+recs[i].i+'</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;margin-bottom:2px;">'+recs[i].t+'</div><div style="font-size:12px;color:#555550;line-height:1.5;margin-bottom:3px;">'+recs[i].s+'</div><div style="font-size:11px;font-weight:700;color:#4e7c54;">'+recs[i].p+'</div></div></div>';}re.innerHTML=rh;}
+  if(re){var rh='';for(var i=0;i<recs.length;i++){rh+='<div style="display:flex;align-items:flex-start;gap:12px;padding:11px 14px;border-bottom:1px solid rgba(200,220,255,0.08);"><div style="font-size:20px;flex-shrink:0;">'+recs[i].i+'</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;margin-bottom:2px;">'+recs[i].t+'</div><div style="font-size:12px;color:rgba(200,220,255,0.65);line-height:1.5;margin-bottom:3px;">'+recs[i].s+'</div><div style="font-size:11px;font-weight:700;color:#4e7c54;">'+recs[i].p+'</div></div></div>';}re.innerHTML=rh;}
   var bars=document.getElementById('kp-bars');
-  if(bars&&k.u25>0){var mx=Math.max(k.u25,k.u24||0,(k.u26||0)*2,1);var bd=[{l:'2024',v:k.u24,c:'#4a6e8f'},{l:'2025',v:k.u25,c:'#4e7c54'},{l:'2026 YTD',v:k.u26,c:'#a07840'}];var bh='';for(var i=0;i<bd.length;i++){if(!bd[i].v)continue;bh+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="flex:0 0 52px;font-size:11px;color:#888888;">'+bd[i].l+'</span><div style="flex:1;height:8px;background:#f0ede6;border-radius:999px;overflow:hidden;"><div style="width:'+Math.round(bd[i].v/mx*100)+'%;height:100%;background:'+bd[i].c+';border-radius:999px;"></div></div><span style="font-size:11px;font-weight:700;min-width:44px;text-align:right;">'+fmt(bd[i].v)+'</span></div>';}bars.innerHTML=bh;}
+  if(bars&&k.u25>0){var mx=Math.max(k.u25,k.u24||0,(k.u26||0)*2,1);var bd=[{l:'2024',v:k.u24,c:'#4a6e8f'},{l:'2025',v:k.u25,c:'#4e7c54'},{l:'2026 YTD',v:k.u26,c:'#a07840'}];var bh='';for(var i=0;i<bd.length;i++){if(!bd[i].v)continue;bh+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="flex:0 0 52px;font-size:11px;color:rgba(200,220,255,0.45);">'+bd[i].l+'</span><div style="flex:1;height:8px;background:rgba(200,220,255,0.08);border-radius:999px;overflow:hidden;"><div style="width:'+Math.round(bd[i].v/mx*100)+'%;height:100%;background:'+bd[i].c+';border-radius:999px;"></div></div><span style="font-size:11px;font-weight:700;min-width:44px;text-align:right;">'+fmt(bd[i].v)+'</span></div>';}bars.innerHTML=bh;}
   gotoView('view-kp','nav-k');
 }
 
@@ -540,7 +531,7 @@ function fillPV(k){
   if(k.trend<-10){ziele=['Ursache des R&#252;ckgangs kl&#228;ren','Konkrete L&#246;sung anbieten','Verbindliche Vereinbarung treffen'];}
   else if(k.prio==='A'){ziele=['Supersprox und DID Neuheiten vorstellen','Cross-Sell bei Batterien pr&#252;fen','Jahres-Kondition besprechen'];}
   else{ziele=['Sortiment und Marken pr&#252;fen','Potenzial-Analyse durchgehen','Stammdaten aktualisieren'];}
-  var zh='';for(var i=0;i<ziele.length;i++){zh+='<div style="background:#faf9f6;border:1px solid #dedad2;border-radius:12px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start;margin-bottom:8px;"><div style="width:24px;height:24px;border-radius:50%;background:#b87052;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">'+(i+1)+'</div><div style="font-size:13px;line-height:1.5;">'+ziele[i]+'</div></div>';}
+  var zh='';for(var i=0;i<ziele.length;i++){zh+='<div style="background:rgba(200,220,255,0.05);border:1px solid rgba(200,220,255,0.1);border-radius:12px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start;margin-bottom:8px;"><div style="width:24px;height:24px;border-radius:50%;background:#b87052;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">'+(i+1)+'</div><div style="font-size:13px;line-height:1.5;">'+ziele[i]+'</div></div>';}
   si('pv-ziele',zh);
   var MARKEN=['DID Ketten','SBS Bremsbelag','Supersprox Katalog','Visitenkarten & Preisliste'];
   var ch='';for(var i=0;i<MARKEN.length;i++){ch+='<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f0ede6;"><div style="width:20px;height:20px;border-radius:5px;border:2px solid #b87052;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;" onclick="var el=this;el.style.background=el.style.background?\"\":\"#b87052\";el.innerHTML=el.innerHTML?\"\":\"&#10003;\";">&#x200B;</div><div style="font-size:13px;">'+MARKEN[i]+'</div></div>';}
@@ -572,7 +563,7 @@ function startRec(){
       var badge=document.getElementById('br-ki-badge');
       if(badge)badge.innerHTML='Fertig';
       if(ki)ki.innerHTML='<b>Gespr&#228;chsinhalt:</b> Sortiment besprochen, Neuheiten vorgestellt.'+(k.trend<0?' R&#252;ckgang thematisiert.':' Positive Stimmung.')+' <b>Marken:</b> DID, SBS. <b>N&#228;chster Besuch:</b> 6-8 Wochen.';
-      if(fu)fu.innerHTML='<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-bottom:1px solid #dedad2;"><span>&#128229;</span><div><div style="font-size:13px;font-weight:700;">Angebot senden</div><div style="font-size:12px;color:#888888;">DID/SBS bis Freitag</div></div></div><div style="display:flex;align-items:flex-start;gap:10px;padding:10px 14px;"><span>&#128197;</span><div><div style="font-size:13px;font-weight:700;">Folgetermin</div><div style="font-size:12px;color:#888888;">In 6-8 Wochen</div></div></div>';
+      if(fu)fu.innerHTML='<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(200,220,255,0.08);"><span>&#128229;</span><div><div style="font-size:13px;font-weight:700;">Angebot senden</div><div style="font-size:12px;color:rgba(200,220,255,0.45);">DID/SBS bis Freitag</div></div></div><div style="display:flex;align-items:flex-start;gap:10px;padding:10px 14px;"><span>&#128197;</span><div><div style="font-size:13px;font-weight:700;">Folgetermin</div><div style="font-size:12px;color:rgba(200,220,255,0.45);">In 6-8 Wochen</div></div></div>';
       if(area)area.style.background='#b87052';
       if(title)title.innerHTML='Neue Aufnahme starten';
       if(sub)sub.innerHTML='Tippe und sprich deinen Bericht frei ein';
@@ -613,15 +604,15 @@ function buildTour(){
       var k=topA[i];
       var tc=k.trend>0?'#4e7c54':k.trend<0?'#9e5c3a':'#888888';
       var ts2=k.trend>0?'+'+k.trend+'%':k.trend<0?'-'+Math.abs(k.trend)+'%':'0%';
-      h+='<div style="background:#faf9f6;border:1px solid #dedad2;border-radius:0;padding:12px 16px;border-bottom:1px solid #dedad2;cursor:pointer;display:flex;align-items:center;gap:12px;" onclick="openKP('+k.nr+')"><div style="width:28px;height:28px;border-radius:50%;background:'+(i===0?'#b87052':'#f0ede6')+';color:'+(i===0?'#fff':'#888888')+';display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">'+(i+1)+'</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+k.name+'</div><div style="font-size:11px;color:#888888;margin-top:1px;">'+k.ort+'</div></div><div style="text-align:right;flex-shrink:0;"><div style="font-size:12px;font-weight:700;">'+fmt(k.u25)+'</div><div style="font-size:11px;color:'+tc+';">'+ts2+'</div></div></div>';
+      h+='<div style="background:rgba(200,220,255,0.05);border:1px solid rgba(200,220,255,0.1);border-radius:0;padding:12px 16px;border-bottom:1px solid rgba(200,220,255,0.08);cursor:pointer;display:flex;align-items:center;gap:12px;" onclick="openKP('+k.nr+')"><div style="width:28px;height:28px;border-radius:50%;background:'+(i===0?'#b87052':'#f0ede6')+';color:'+(i===0?'#fff':'#888888')+';display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">'+(i+1)+'</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+k.name+'</div><div style="font-size:11px;color:rgba(200,220,255,0.45);margin-top:1px;">'+k.ort+'</div></div><div style="text-align:right;flex-shrink:0;"><div style="font-size:12px;font-weight:700;">'+fmt(k.u25)+'</div><div style="font-size:11px;color:'+tc+';">'+ts2+'</div></div></div>';
     }
     tl.innerHTML=h;
   }
   var rl=document.getElementById('radar-list');
   if(rl&&MK.length){
-    var rh='<div style="padding:8px 16px;font-size:10px;font-weight:700;color:#888888;text-transform:uppercase;">Kunden nach PLZ</div>';
+    var rh='<div style="padding:8px 16px;font-size:10px;font-weight:700;color:rgba(200,220,255,0.45);text-transform:uppercase;">Kunden nach PLZ</div>';
     var sorted=MK.slice().sort(function(a,b){return (a.plz||'').localeCompare(b.plz||'');}).slice(0,8);
-    for(var i=0;i<sorted.length;i++){var k=sorted[i];rh+='<div style="display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid #dedad2;cursor:pointer;" onclick="openKP('+k.nr+')"><div style="flex:1;"><div style="font-size:13px;font-weight:600;">'+k.name+'</div><div style="font-size:11px;color:#888888;">'+k.plz+' '+k.ort+'</div></div><span class="badge '+(k.prio==='A'?'ba':k.prio==='B'?'bb':'bc')+'">'+k.prio+'</span></div>';}
+    for(var i=0;i<sorted.length;i++){var k=sorted[i];rh+='<div style="display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(200,220,255,0.08);cursor:pointer;" onclick="openKP('+k.nr+')"><div style="flex:1;"><div style="font-size:13px;font-weight:600;">'+k.name+'</div><div style="font-size:11px;color:rgba(200,220,255,0.45);">'+k.plz+' '+k.ort+'</div></div><span class="badge '+(k.prio==='A'?'ba':k.prio==='B'?'bb':'bc')+'">'+k.prio+'</span></div>';}
     rl.innerHTML=rh;
   }
 }
@@ -649,11 +640,11 @@ function respondChat(ql,hist){
   if(ql.indexOf('top')>=0||ql.indexOf('wer')>=0){
     var top=MK.slice().sort(function(a,b){return b.u25-a.u25;}).slice(0,5);
     text='<b>Top-5 Kunden 2025:</b>';
-    for(var i=0;i<top.length;i++)text+='<div style="background:#f0ede6;border-radius:8px;padding:7px 10px;margin-top:5px;cursor:pointer;" onclick="openKP('+top[i].nr+')">'+(i+1)+'. <b>'+top[i].name+'</b> &middot; '+fmt(top[i].u25)+'</div>';
+    for(var i=0;i<top.length;i++)text+='<div style="background:rgba(200,220,255,0.06);border-radius:8px;padding:7px 10px;margin-top:5px;cursor:pointer;" onclick="openKP('+top[i].nr+')">'+(i+1)+'. <b>'+top[i].name+'</b> &middot; '+fmt(top[i].u25)+'</div>';
   } else if(ql.indexOf('reaktiv')>=0||ql.indexOf('r&#252;ck')>=0||ql.indexOf('ckgang')>=0){
     var dn=MK.filter(function(k){return k.trend<-10;}).sort(function(a,b){return a.trend-b.trend;});
     if(!dn.length){text='Keine Kunden mit starkem R&#252;ckgang.';}
-    else{text='<b>'+dn.length+' mit R&#252;ckgang &gt;10%:</b>';for(var i=0;i<Math.min(dn.length,5);i++){var lt=dn[i].u26>0&&dn[i].u25>0?Math.round(((dn[i].u26*2)/dn[i].u25-1)*100):dn[i].trend;text+='<div style="background:#f5e8e0;border-radius:8px;padding:7px 10px;margin-top:5px;cursor:pointer;" onclick="openKP('+dn[i].nr+')">'+(i+1)+'. <b>'+dn[i].name+'</b><br>Vorjahr: '+(dn[i].trend)+'% &middot; Saison: '+(lt>0?'+':'')+lt+'% &middot; '+fmt(dn[i].u25)+'</div>';}}
+    else{text='<b>'+dn.length+' mit R&#252;ckgang &gt;10%:</b>';for(var i=0;i<Math.min(dn.length,5);i++){var lt=dn[i].u26>0&&dn[i].u25>0?Math.round(((dn[i].u26*2)/dn[i].u25-1)*100):dn[i].trend;text+='<div style="background:rgba(255,138,101,0.1);border-radius:8px;padding:7px 10px;margin-top:5px;cursor:pointer;" onclick="openKP('+dn[i].nr+')">'+(i+1)+'. <b>'+dn[i].name+'</b><br>Vorjahr: '+(dn[i].trend)+'% &middot; Saison: '+(lt>0?'+':'')+lt+'% &middot; '+fmt(dn[i].u25)+'</div>';}}
   } else if(ql.indexOf('ausland')>=0){
     var intl=MK.filter(function(k){return k.land!=='DE';});
     if(!intl.length){text='Keine Auslandskunden.';}
@@ -661,13 +652,13 @@ function respondChat(ql,hist){
   } else if(ql.indexOf('wachstum')>=0){
     var up=MK.filter(function(k){return k.u26>0&&k.u25>0&&((k.u26*2)/k.u25-1)>0.15;}).sort(function(a,b){return ((b.u26*2)/b.u25)-((a.u26*2)/a.u25);});
     if(!up.length){text='Kein deutliches Saison-Wachstum.';}
-    else{text='<b>'+up.length+' mit Saison-Wachstum &gt;15%:</b>';for(var i=0;i<Math.min(up.length,5);i++){var lt2=Math.round(((up[i].u26*2)/up[i].u25-1)*100);text+='<div style="background:#eaf2eb;border-radius:8px;padding:7px 10px;margin-top:5px;cursor:pointer;" onclick="openKP('+up[i].nr+')">'+(i+1)+'. <b>'+up[i].name+'</b><br>Saison +'+lt2+'% &middot; '+fmt(up[i].u25)+'</div>';}}
+    else{text='<b>'+up.length+' mit Saison-Wachstum &gt;15%:</b>';for(var i=0;i<Math.min(up.length,5);i++){var lt2=Math.round(((up[i].u26*2)/up[i].u25-1)*100);text+='<div style="background:rgba(93,191,138,0.1);border-radius:8px;padding:7px 10px;margin-top:5px;cursor:pointer;" onclick="openKP('+up[i].nr+')">'+(i+1)+'. <b>'+up[i].name+'</b><br>Saison +'+lt2+'% &middot; '+fmt(up[i].u25)+'</div>';}}
   } else {
     var u25t=0;for(var i=0;i<MK.length;i++)u25t+=MK[i].u25;
     var btns=['Top Kunden','Reaktivierungen','Wachstum','Ausland','Wer heute?'];
     text='Ich kenne alle <b>'+MK.length+' Kunden</b> von '+VN[CV]+' ('+fmt(u25t)+' 2025). Frag mich:';
     text+='<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;">';
-    for(var i=0;i<btns.length;i++)text+='<div onclick="quickChat(this.textContent)" style="background:#f0ede6;border:1px solid #dedad2;border-radius:8px;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer;">'+btns[i]+'</div>';
+    for(var i=0;i<btns.length;i++)text+='<div onclick="quickChat(this.textContent)" style="background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.1);border-radius:8px;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer;">'+btns[i]+'</div>';
     text+='</div>';
   }
   setTimeout(function(){
@@ -692,12 +683,12 @@ function openInt(typ){
     var mailTxt='Guten Tag,\n\nBesuchsbericht '+name+' ('+ort+'):\nUmsatz 2025: '+u25+'\n\nFollow-Up:\n- Angebot bis Freitag\n- Termin in 6-8 Wochen\n\nMit freundlichen Gruessen\n'+vtr;
     body.innerHTML=
       '<div style="background:#e3f2fd;border:1px solid #90caf9;border-radius:11px;padding:12px;margin-bottom:12px;"><div style="font-size:13px;font-weight:700;color:#1a237e;">&#128231; Microsoft Outlook</div><div style="font-size:11px;color:#3f51b5;margin-top:2px;">Besuchsbericht weiterleiten</div></div>'+
-      '<div style="font-size:11px;font-weight:700;color:#888888;text-transform:uppercase;margin-bottom:6px;">An</div>'+
-      '<input id="ol-to" placeholder="empfaenger@firma.de" style="width:100%;background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:10px;outline:none;">'+
-      '<div style="font-size:11px;font-weight:700;color:#888888;text-transform:uppercase;margin-bottom:6px;">Betreff</div>'+
-      '<input id="ol-subj" value="Besuchsbericht: '+name+'" style="width:100%;background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:10px;outline:none;">'+
-      '<div style="font-size:11px;font-weight:700;color:#888888;text-transform:uppercase;margin-bottom:6px;">Inhalt (bearbeitbar)</div>'+
-      '<textarea id="ol-body" rows="5" style="width:100%;background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:10px 13px;font-size:12px;margin-bottom:14px;outline:none;resize:none;line-height:1.5;"></textarea>'+
+      '<div style="font-size:11px;font-weight:700;color:rgba(200,220,255,0.45);text-transform:uppercase;margin-bottom:6px;">An</div>'+
+      '<input id="ol-to" placeholder="empfaenger@firma.de" style="width:100%;background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.12);border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:10px;outline:none;color:#e8f2ff;">'+
+      '<div style="font-size:11px;font-weight:700;color:rgba(200,220,255,0.45);text-transform:uppercase;margin-bottom:6px;">Betreff</div>'+
+      '<input id="ol-subj" value="Besuchsbericht: '+name+'" style="width:100%;background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.12);border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:10px;outline:none;color:#e8f2ff;">'+
+      '<div style="font-size:11px;font-weight:700;color:rgba(200,220,255,0.45);text-transform:uppercase;margin-bottom:6px;">Inhalt (bearbeitbar)</div>'+
+      '<textarea id="ol-body" rows="5" style="width:100%;background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.1);border-radius:10px;padding:10px 13px;font-size:12px;margin-bottom:14px;outline:none;resize:none;line-height:1.5;"></textarea>'+
       '<div onclick="sendOutlook()" style="background:#1a237e;color:#fff;border-radius:12px;padding:13px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;">&#128231; In Outlook oeffnen</div>';
     setTimeout(function(){var ta=document.getElementById('ol-body');if(ta)ta.value=mailTxt.replace(/\\n/g,'\n');},50);
   } else if(typ==='wa'){
@@ -705,14 +696,14 @@ function openInt(typ){
     var waTmpl=['Ich bin heute in Ihrer Naehe - haben Sie kurz Zeit?','Vielen Dank fuer das gute Gespraech! Angebot folgt in Kuerze.','Ich wuerde gerne einen Termin vereinbaren. Wann passt es?'];
     body.innerHTML=
       '<div style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:11px;padding:12px;margin-bottom:14px;"><div style="font-size:13px;font-weight:700;color:#1b5e20;">&#128172; WhatsApp Business</div><div style="font-size:11px;color:#4caf50;margin-top:2px;">Nachricht an '+name+'</div></div>'+
-      '<div style="font-size:11px;font-weight:700;color:#888888;text-transform:uppercase;margin-bottom:8px;">Vorlage</div>'+
-      '<div onclick="pickWAInt(this,0)" style="background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:12px 13px;margin-bottom:7px;cursor:pointer;font-size:13px;">&#128205; In Ihrer Naehe</div>'+
-      '<div onclick="pickWAInt(this,1)" style="background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:12px 13px;margin-bottom:7px;cursor:pointer;font-size:13px;">&#129309; Danke nach Besuch</div>'+
-      '<div onclick="pickWAInt(this,2)" style="background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:12px 13px;margin-bottom:12px;cursor:pointer;font-size:13px;">&#128197; Terminanfrage</div>'+
-      '<div style="font-size:11px;font-weight:700;color:#888888;text-transform:uppercase;margin-bottom:6px;">Telefonnummer</div>'+
-      '<input id="wa-int-nr" placeholder="+49 123 456789" style="width:100%;background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:10px 13px;font-size:14px;margin-bottom:10px;outline:none;">'+
-      '<div style="font-size:11px;font-weight:700;color:#888888;text-transform:uppercase;margin-bottom:6px;">Nachricht</div>'+
-      '<textarea id="wa-int-msg" rows="4" style="width:100%;background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:14px;outline:none;resize:none;">Guten Tag, hier ist '+vtr+' von MotoForce.</textarea>'+
+      '<div style="font-size:11px;font-weight:700;color:rgba(200,220,255,0.45);text-transform:uppercase;margin-bottom:8px;">Vorlage</div>'+
+      '<div onclick="pickWAInt(this,0)" style="background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.1);border-radius:10px;padding:12px 13px;margin-bottom:7px;cursor:pointer;font-size:13px;">&#128205; In Ihrer Naehe</div>'+
+      '<div onclick="pickWAInt(this,1)" style="background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.1);border-radius:10px;padding:12px 13px;margin-bottom:7px;cursor:pointer;font-size:13px;">&#129309; Danke nach Besuch</div>'+
+      '<div onclick="pickWAInt(this,2)" style="background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.1);border-radius:10px;padding:12px 13px;margin-bottom:12px;cursor:pointer;font-size:13px;">&#128197; Terminanfrage</div>'+
+      '<div style="font-size:11px;font-weight:700;color:rgba(200,220,255,0.45);text-transform:uppercase;margin-bottom:6px;">Telefonnummer</div>'+
+      '<input id="wa-int-nr" placeholder="+49 123 456789" style="width:100%;background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.12);border-radius:10px;padding:10px 13px;font-size:14px;margin-bottom:10px;outline:none;color:#e8f2ff;">'+
+      '<div style="font-size:11px;font-weight:700;color:rgba(200,220,255,0.45);text-transform:uppercase;margin-bottom:6px;">Nachricht</div>'+
+      '<textarea id="wa-int-msg" rows="4" style="width:100%;background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.1);border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:14px;outline:none;resize:none;">Guten Tag, hier ist '+vtr+' von MotoForce.</textarea>'+
       '<div onclick="sendWAInt()" style="background:#25D366;color:#fff;border-radius:12px;padding:13px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;">&#128172; In WhatsApp oeffnen</div>';
     window._waTmpl=waTmpl;
   } else if(typ==='asana'){
@@ -720,20 +711,20 @@ function openInt(typ){
     var d=new Date(); d.setDate(d.getDate()+3);
     body.innerHTML=
       '<div style="background:#fce4ec;border:1px solid #f48fb1;border-radius:11px;padding:12px;margin-bottom:14px;"><div style="font-size:13px;font-weight:700;color:#880e4f;">&#9989; Asana</div><div style="font-size:11px;color:#c2185b;margin-top:2px;">Aufgabe erstellen</div></div>'+
-      '<div style="font-size:11px;font-weight:700;color:#888888;text-transform:uppercase;margin-bottom:6px;">Aufgabe</div>'+
-      '<input id="as-title" value="Follow-up: '+name+'" style="width:100%;background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:10px;outline:none;">'+
-      '<div style="font-size:11px;font-weight:700;color:#888888;text-transform:uppercase;margin-bottom:6px;">Beschreibung</div>'+
-      '<textarea id="as-desc" rows="4" style="width:100%;background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:10px;outline:none;resize:none;"></textarea>'+
-      '<div style="font-size:11px;font-weight:700;color:#888888;text-transform:uppercase;margin-bottom:6px;">F&#228;llig am</div>'+
-      '<input id="as-due" type="date" value="'+d.toISOString().split('T')[0]+'" style="width:100%;background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:14px;outline:none;">'+
+      '<div style="font-size:11px;font-weight:700;color:rgba(200,220,255,0.45);text-transform:uppercase;margin-bottom:6px;">Aufgabe</div>'+
+      '<input id="as-title" value="Follow-up: '+name+'" style="width:100%;background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.12);border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:10px;outline:none;color:#e8f2ff;">'+
+      '<div style="font-size:11px;font-weight:700;color:rgba(200,220,255,0.45);text-transform:uppercase;margin-bottom:6px;">Beschreibung</div>'+
+      '<textarea id="as-desc" rows="4" style="width:100%;background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.1);border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:10px;outline:none;resize:none;"></textarea>'+
+      '<div style="font-size:11px;font-weight:700;color:rgba(200,220,255,0.45);text-transform:uppercase;margin-bottom:6px;">F&#228;llig am</div>'+
+      '<input id="as-due" type="date" value="'+d.toISOString().split('T')[0]+'" style="width:100%;background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.12);border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:14px;outline:none;color:#e8f2ff;">'+
       '<div onclick="sendAsana()" style="background:#c2185b;color:#fff;border-radius:12px;padding:13px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;">&#9989; Aufgabe erstellen</div>';
     setTimeout(function(){var ta=document.getElementById('as-desc');if(ta)ta.value='Besuch bei '+name+' in '+ort+'.\nUmsatz 2025: '+u25+'.\nAngebot bis Freitag senden.';},50);
   } else if(typ==='teams'){
     title.innerHTML='&#128172; Microsoft Teams';
     body.innerHTML=
       '<div style="background:#ede7f6;border:1px solid #b39ddb;border-radius:11px;padding:12px;margin-bottom:14px;"><div style="font-size:13px;font-weight:700;color:#311b92;">&#128172; Microsoft Teams</div><div style="font-size:11px;color:#7e57c2;margin-top:2px;">Kanal: Vertrieb</div></div>'+
-      '<div style="font-size:11px;font-weight:700;color:#888888;text-transform:uppercase;margin-bottom:6px;">Nachricht</div>'+
-      '<textarea id="te-msg" rows="5" style="width:100%;background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:14px;outline:none;resize:none;"></textarea>'+
+      '<div style="font-size:11px;font-weight:700;color:rgba(200,220,255,0.45);text-transform:uppercase;margin-bottom:6px;">Nachricht</div>'+
+      '<textarea id="te-msg" rows="5" style="width:100%;background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.1);border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:14px;outline:none;resize:none;"></textarea>'+
       '<div onclick="sendTeams()" style="background:#673ab7;color:#fff;border-radius:12px;padding:13px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;">&#128172; In Teams senden</div>';
     setTimeout(function(){var ta=document.getElementById('te-msg');if(ta)ta.value='Hi Team,\n\nBesuch bei '+name+' ('+ort+') abgeschlossen.\nUmsatz 2025: '+u25+'\n\n-> Angebot bis Freitag\n-> Termin in 6-8 Wochen\n\n'+vtr;},50);
   }
@@ -785,10 +776,10 @@ buildLogin();
 
 <!-- INTEGRATION PANEL (Slideup) -->
   <div id="int-panel" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:600;align-items:flex-end;justify-content:center;" onclick="if(event.target===this)closeInt()">
-    <div style="background:#faf9f6;border-radius:24px 24px 0 0;padding:20px;width:100%;max-width:390px;max-height:80vh;overflow-y:auto;">
+    <div style="background:linear-gradient(160deg,#1e2d4a,#253558);border:1px solid rgba(200,220,255,0.1);border-radius:24px 24px 0 0;padding:20px;width:100%;max-width:390px;max-height:80vh;overflow-y:auto;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
         <div style="font-size:15px;font-weight:800;" id="int-title">Aktion</div>
-        <div onclick="closeInt()" style="font-size:22px;cursor:pointer;color:#888888;">&#10005;</div>
+        <div onclick="closeInt()" style="font-size:22px;cursor:pointer;color:rgba(200,220,255,0.45);">&#10005;</div>
       </div>
       <div id="int-body"></div>
     </div>
@@ -796,17 +787,17 @@ buildLogin();
 
   <!-- WHATSAPP PANEL -->
   <div id="wa-panel" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:500;align-items:flex-end;justify-content:center;">
-    <div style="background:#faf9f6;border-radius:24px 24px 0 0;padding:20px;width:100%;max-width:390px;">
+    <div style="background:linear-gradient(160deg,#1e2d4a,#253558);border:1px solid rgba(200,220,255,0.1);border-radius:24px 24px 0 0;padding:20px;width:100%;max-width:390px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-        <div style="font-size:15px;font-weight:800;" id="wa-panel-title">&#128172; WhatsApp</div>
-        <div onclick="closeWAPanel()" style="font-size:22px;cursor:pointer;color:#888888;">&#10005;</div>
+        <div style="font-size:15px;font-weight:800;" id="wa-panel-title" style="color:#e8f2ff;">&#128172; WhatsApp</div>
+        <div onclick="closeWAPanel()" style="font-size:22px;cursor:pointer;color:rgba(200,220,255,0.45);">&#10005;</div>
       </div>
-      <div style="font-size:11px;font-weight:700;color:#888888;text-transform:uppercase;margin-bottom:6px;">Telefonnummer</div>
-      <input id="wa-tel-input" placeholder="+49 123 456789" style="width:100%;background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:10px 13px;font-size:14px;margin-bottom:12px;outline:none;">
-      <div style="font-size:11px;font-weight:700;color:#888888;text-transform:uppercase;margin-bottom:6px;">Nachricht</div>
-      <textarea id="wa-msg-text" rows="5" style="width:100%;background:#f0ede6;border:1px solid #dedad2;border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:14px;outline:none;resize:none;line-height:1.5;"></textarea>
+      <div style="font-size:11px;font-weight:700;color:rgba(200,220,255,0.45);text-transform:uppercase;margin-bottom:6px;">Telefonnummer</div>
+      <input id="wa-tel-input" placeholder="+49 123 456789" style="width:100%;background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.12);border-radius:10px;padding:10px 13px;font-size:14px;margin-bottom:12px;outline:none;color:#e8f2ff;">
+      <div style="font-size:11px;font-weight:700;color:rgba(200,220,255,0.45);text-transform:uppercase;margin-bottom:6px;">Nachricht</div>
+      <textarea id="wa-msg-text" rows="5" style="width:100%;background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.12);border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:14px;outline:none;resize:none;line-height:1.5;color:#e8f2ff;"></textarea>
       <div style="display:flex;gap:8px;">
-        <div onclick="closeWAPanel()" style="flex:1;background:#f0ede6;border-radius:12px;padding:12px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;color:#888888;">Abbrechen</div>
+        <div onclick="closeWAPanel()" style="flex:1;background:rgba(200,220,255,0.06);border:1px solid rgba(200,220,255,0.1);border-radius:12px;padding:12px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;color:rgba(200,220,255,0.5);">Abbrechen</div>
         <div onclick="sendWAPanel()" style="flex:2;background:#25D366;border-radius:12px;padding:12px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;color:#fff;">&#128172; In WhatsApp oeffnen</div>
       </div>
     </div>
