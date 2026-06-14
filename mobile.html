@@ -53,6 +53,8 @@ body{background:linear-gradient(135deg,#c8ddf0 0%,#d6e8f5 50%,#b8d0e8 100%);back
 .kfl{background:rgba(255,255,255,0.65);border:1px solid rgba(30,80,140,0.15);border-radius:999px;padding:4px 12px;font-size:11px;font-weight:600;color:#1a4a7a;cursor:pointer;white-space:nowrap;flex-shrink:0;}
 .detailbar{display:flex;align-items:center;padding:8px 16px;border-bottom:1px solid rgba(30,80,140,0.1);gap:8px;}
 .backbtn{font-size:22px;cursor:pointer;color:#b8860b;padding:4px;font-weight:700;}
+.back-bar{display:flex;align-items:center;padding:6px 16px 2px;gap:8px;}
+.back-bar-btn{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:700;color:#b8860b;cursor:pointer;padding:4px 8px;border-radius:8px;background:rgba(184,134,11,0.08);border:1px solid rgba(184,134,11,0.2);}
 .badge{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;font-size:10px;font-weight:800;padding:2px 7px;}
 .ba{background:rgba(184,134,11,0.12);color:#8b6508;border:1px solid rgba(184,134,11,0.3);}
 .bb{background:rgba(26,74,122,0.1);color:#1a4a7a;border:1px solid rgba(26,74,122,0.2);}
@@ -90,6 +92,9 @@ body{background:linear-gradient(135deg,#c8ddf0 0%,#d6e8f5 50%,#b8d0e8 100%);back
 .tour-card:nth-child(4){animation-delay:0.19s;}
 .tour-card:nth-child(5){animation-delay:0.24s;}
 .tour-card:nth-child(6){animation-delay:0.28s;}
+@keyframes viewFlyIn{from{opacity:0;transform:scale(1.04) translateY(-8px);}to{opacity:1;transform:scale(1) translateY(0);}}
+@keyframes viewSlideIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.view-enter{animation:viewFlyIn 0.42s cubic-bezier(0.22,1,0.36,1) both;}
 </style>
 </head>
 <body>
@@ -131,6 +136,7 @@ body{background:linear-gradient(135deg,#c8ddf0 0%,#d6e8f5 50%,#b8d0e8 100%);back
     <!-- KUNDEN -->
     <div class="view" id="view-kunden">
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
+      <div class="back-bar"><div class="back-bar-btn" onclick="navBack('view-home','nav-h')">&#8249; Home</div></div>
       <div class="topbar"><div><div class="topbar-title">Meine Kunden</div><div class="topbar-sub" id="ksub">-</div></div></div>
       <div style="display:flex;gap:7px;padding:6px 16px 8px;overflow-x:auto;scrollbar-width:none;">
         <div class="kfl" onclick="fk(event,'all')">Alle</div>
@@ -153,7 +159,7 @@ body{background:linear-gradient(135deg,#c8ddf0 0%,#d6e8f5 50%,#b8d0e8 100%);back
     <div class="view" id="view-kp">
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
       <div class="detailbar">
-        <div class="backbtn" onclick="gotoView('view-kunden','nav-k')">&#8249;</div>
+        <div class="backbtn" onclick="navBack('view-kunden','nav-k')">&#8249;</div>
         <div style="flex:1;text-align:center;font-size:14px;font-weight:700;color:#1a3560;">Kundenprofil</div>
         <span class="badge ba" id="kp-badge">A</span>
       </div>
@@ -200,7 +206,7 @@ body{background:linear-gradient(135deg,#c8ddf0 0%,#d6e8f5 50%,#b8d0e8 100%);back
     <div class="view" id="view-pv">
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
       <div class="detailbar">
-        <div class="backbtn" onclick="gotoView('view-kp','nav-k')">&#8249;</div>
+        <div class="backbtn" onclick="navBack('view-kp','nav-k')">&#8249;</div>
         <div style="flex:1;text-align:center;font-size:14px;font-weight:700;color:#1a3560;">&#128203; Vorbereitung</div>
         <div style="font-size:11px;color:rgba(30,70,120,0.55);" id="pv-name-top">-</div>
       </div>
@@ -213,7 +219,7 @@ body{background:linear-gradient(135deg,#c8ddf0 0%,#d6e8f5 50%,#b8d0e8 100%);back
       <div class="sec">Mitnahme-Checkliste</div>
       <div style="display:flex;flex-direction:column;gap:6px;padding:0 16px;" id="pv-check"></div>
       <div style="display:flex;gap:8px;padding:14px 16px 80px;">
-        <div onclick="gotoView('view-br','nav-b')" style="flex:1;background:linear-gradient(135deg,#1a7a4a,#158040);border-radius:12px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#127908;</div><div style="font-size:11px;font-weight:700;color:#fff;">Bericht</div></div>
+        <div onclick="navBack('view-br','nav-b')" style="flex:1;background:linear-gradient(135deg,#1a7a4a,#158040);border-radius:12px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#127908;</div><div style="font-size:11px;font-weight:700;color:#fff;">Bericht</div></div>
         <div onclick="gotoView('view-kp','nav-k')" style="flex:1;background:rgba(255,255,255,0.75);border:1px solid rgba(30,80,140,0.12);border-radius:12px;padding:12px;cursor:pointer;text-align:center;"><div style="font-size:16px;">&#128100;</div><div style="font-size:11px;font-weight:700;color:#1a4a7a;">Profil</div></div>
       </div>
     </div>
@@ -222,7 +228,7 @@ body{background:linear-gradient(135deg,#c8ddf0 0%,#d6e8f5 50%,#b8d0e8 100%);back
     <div class="view" id="view-br">
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
       <div class="detailbar">
-        <div class="backbtn" onclick="gotoView('view-kp','nav-k')">&#8249;</div>
+        <div class="backbtn" onclick="navBack('view-kp','nav-k')">&#8249;</div>
         <div style="flex:1;text-align:center;font-size:14px;font-weight:700;color:#1a3560;">&#127908; Nachbereitung</div>
         <div style="font-size:11px;color:rgba(30,70,120,0.55);" id="br-name-top">-</div>
       </div>
@@ -253,6 +259,7 @@ body{background:linear-gradient(135deg,#c8ddf0 0%,#d6e8f5 50%,#b8d0e8 100%);back
     <!-- TOUR -->
     <div class="view" id="view-tour">
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
+      <div class="back-bar"><div class="back-bar-btn" onclick="navBack('view-home','nav-h')">&#8249; Home</div></div>
       <div class="topbar">
         <div><div class="topbar-title">Tour heute</div><div class="topbar-sub" id="tsub">Meine Tourenplanung</div></div>
         <div style="background:linear-gradient(135deg,#1a4a7a,#1e5a94);color:#fff;border-radius:999px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;">Maps &#8599;</div>
@@ -283,7 +290,7 @@ body{background:linear-gradient(135deg,#c8ddf0 0%,#d6e8f5 50%,#b8d0e8 100%);back
     <div class="view" id="view-radar">
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
       <div class="detailbar">
-        <div class="backbtn" onclick="gotoView('view-tour','nav-t')">&#8249;</div>
+        <div class="backbtn" onclick="navBack('view-tour','nav-t')">&#8249;</div>
         <div style="flex:1;text-align:center;font-size:14px;font-weight:700;color:#1a3560;">&#128225; Umkreis-Radar</div>
       </div>
       <div style="margin:12px 16px;background:rgba(26,74,122,0.06);border:1px solid rgba(26,74,122,0.12);border-radius:14px;padding:13px;">
@@ -302,6 +309,7 @@ body{background:linear-gradient(135deg,#c8ddf0 0%,#d6e8f5 50%,#b8d0e8 100%);back
     <!-- CHAT -->
     <div class="view" id="view-chat" style="display:flex;flex-direction:column;">
       <div class="sb"><span>9:41</span><span>&#9679;&#9679;&#9679; &#128267;</span></div>
+      <div class="back-bar"><div class="back-bar-btn" onclick="navBack('view-home','nav-h')">&#8249; Home</div></div>
       <div class="topbar">
         <div><div class="topbar-title">KI-Assistent</div><div class="topbar-sub">Frag mich alles ueber deine Kunden</div></div>
         <span style="font-size:22px;">&#129302;</span>
@@ -330,7 +338,7 @@ body{background:linear-gradient(135deg,#c8ddf0 0%,#d6e8f5 50%,#b8d0e8 100%);back
     <button class="navbtn" id="nav-k" onclick="gotoView('view-kunden','nav-k')"><div class="ni">&#128101;</div><div class="nl">Kunden</div></button>
     <button class="navbtn" id="nav-t" onclick="gotoView('view-tour','nav-t')"><div class="ni">&#128506;</div><div class="nl">Tour</div></button>
     <button class="navbtn" id="nav-c" onclick="gotoView('view-chat','nav-c')"><div class="ni">&#128172;</div><div class="nl">KI-Chat</div></button>
-    <button class="navbtn" id="nav-b" onclick="gotoView('view-br','nav-b')"><div class="ni">&#127908;</div><div class="nl">Bericht</div></button>
+    <button class="navbtn" id="nav-b" onclick="navBack('view-br','nav-b')"><div class="ni">&#127908;</div><div class="nl">Bericht</div></button>
   </div>
 
   <!-- INT PANEL -->
@@ -372,14 +380,23 @@ var VN={1:'Vertreter 1',2:'Vertreter 2',3:'Vertreter 3',4:'Vertreter 4',5:'Vertr
 var VI={1:'V1',2:'V2',3:'V3',4:'V4',5:'V5',6:'V6',7:'V7',8:'V8',9:'V9'};
 var CV=null,MK=[],AK=null;
 
-function gotoView(id,navId){
-  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
-  var t=document.getElementById(id); if(t)t.classList.add('active');
-  document.getElementById('screen').scrollTop=0;
+var VIEW_HISTORY=[];
+
+function gotoView(id,navId,addHist){
+  if(addHist!==false) VIEW_HISTORY.push({id:id,navId:navId});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');v.classList.remove('view-enter');});
+  var t=document.getElementById(id);
+  if(t){t.classList.add('active');void t.offsetWidth;t.classList.add('view-enter');}
+  var sc=document.getElementById('screen'); if(sc)sc.scrollTop=0;
   document.querySelectorAll('.navbtn').forEach(function(b){b.classList.remove('active');});
   var nb=document.getElementById(navId); if(nb)nb.classList.add('active');
   if(id==='view-pv'&&AK)fillPV(AK);
   if(id==='view-br'&&AK)fillBR(AK);
+}
+
+function navBack(id,navId){
+  if(VIEW_HISTORY.length>1)VIEW_HISTORY.pop();
+  gotoView(id,navId,false);
 }
 
 function buildLogin(){
