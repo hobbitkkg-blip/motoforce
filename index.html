@@ -79,7 +79,16 @@ body{background:linear-gradient(135deg,#c8ddf0 0%,#d6e8f5 50%,#b8d0e8 100%);back
 .rcard{background:rgba(255,255,255,0.6);border:1px solid rgba(30,80,140,0.12);border-radius:14px;margin:0 16px 12px;overflow:hidden;box-shadow:0 2px 12px rgba(30,80,140,0.07);}
 .rcard-h{padding:11px 14px;border-bottom:1px solid rgba(30,80,140,0.1);font-size:13px;font-weight:700;color:#1a3560;display:flex;justify-content:space-between;align-items:center;}
 .ritem{display:flex;align-items:flex-start;gap:12px;padding:11px 14px;border-bottom:1px solid rgba(30,80,140,0.08);color:#1a3560;}
-.ritem:last-child{border-bottom:none;}</style>
+.ritem:last-child{border-bottom:none;}
+@keyframes flyIn{from{opacity:0;transform:scale(1.15) translateY(-6px);}to{opacity:1;transform:scale(1) translateY(0);}}
+@keyframes slideIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.tour-card-first{animation:flyIn 0.5s cubic-bezier(0.22,1,0.36,1) both;}
+.tour-card{animation:slideIn 0.38s cubic-bezier(0.22,1,0.36,1) both;}
+.tour-card:nth-child(2){animation-delay:0.07s;}
+.tour-card:nth-child(3){animation-delay:0.13s;}
+.tour-card:nth-child(4){animation-delay:0.19s;}
+.tour-card:nth-child(5){animation-delay:0.24s;}
+.tour-card:nth-child(6){animation-delay:0.28s;}</style>
 </head>
 <body>
 <div class="phone">
@@ -600,11 +609,22 @@ function buildTour(){
     var h='';
     for(var i=0;i<topA.length;i++){
       var k=topA[i];
-      var tc=k.trend>0?'#4e7c54':k.trend<0?'#9e5c3a':'#888888';
+      var tc=k.trend>0?'#1a7a4a':k.trend<0?'#c0392b':'rgba(30,70,120,0.5)';
       var ts2=k.trend>0?'+'+k.trend+'%':k.trend<0?'-'+Math.abs(k.trend)+'%':'0%';
-      h+='<div style="background:rgba(255,255,255,0.65);border:1px solid rgba(30,80,140,0.12);border-radius:0;padding:12px 16px;border-bottom:1px solid rgba(200,220,255,0.08);cursor:pointer;display:flex;align-items:center;gap:12px;" onclick="openKP('+k.nr+')"><div style="width:28px;height:28px;border-radius:50%;background:'+(i===0?'#b87052':'#f0ede6')+';color:'+(i===0?'#fff':'#888888')+';display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">'+(i+1)+'</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#1a3560;">'+k.name+'</div><div style="font-size:11px;color:#1a3560;margin-top:1px;">'+k.ort+'</div></div><div style="text-align:right;flex-shrink:0;"><div style="font-size:12px;font-weight:700;color:#1a3560;">'+fmt(k.u25)+'</div><div style="font-size:11px;color:'+tc+';">'+ts2+'</div></div></div>';
+      var cls=i===0?'tour-card-first':'tour-card';
+      var bg=i===0?'rgba(255,255,255,0.95)':'rgba(255,255,255,0.82)';
+      var bdr=i===0?'rgba(30,80,140,0.22)':'rgba(30,80,140,0.12)';
+      var shd=i===0?'box-shadow:0 6px 24px rgba(30,80,140,0.16);':'box-shadow:0 2px 8px rgba(30,80,140,0.07);';
+      var nbg=i===0?'linear-gradient(135deg,#1a4a7a,#1e5a94)':'rgba(30,80,140,0.08)';
+      var ncol=i===0?'#fff':'#1a4a7a';
+      h+='<div class="'+cls+'" style="background:'+bg+';border:1px solid '+bdr+';border-radius:16px;padding:14px 16px;'+shd+'cursor:pointer;display:flex;align-items:center;gap:12px;" onclick="openKP('+k.nr+')">'+
+        '<div style="width:32px;height:32px;border-radius:50%;background:'+nbg+';color:'+ncol+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;">'+(i+1)+'</div>'+
+        '<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;color:#1a3560;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+k.name+'</div>'+
+        '<div style="font-size:11px;color:rgba(30,70,120,0.55);margin-top:2px;">'+k.ort+'</div></div>'+
+        '<div style="text-align:right;flex-shrink:0;"><div style="font-size:13px;font-weight:800;color:#1a3560;">'+fmt(k.u25)+'</div>'+
+        '<div style="font-size:11px;font-weight:700;color:'+tc+';">'+ts2+'</div></div></div>';
     }
-    tl.innerHTML=h;
+    tl.innerHTML='<div style="padding:4px 16px 16px;display:flex;flex-direction:column;gap:10px;">'+h+'</div>';
   }
   var rl=document.getElementById('radar-list');
   if(rl&&MK.length){
@@ -793,9 +813,17 @@ buildLogin();
       <div style="font-size:11px;font-weight:700;color:#1a3560;text-transform:uppercase;margin-bottom:6px;">Telefonnummer</div>
       <input id="wa-tel-input" placeholder="+49 123 456789" style="width:100%;background:rgba(255,255,255,0.65);border:1px solid rgba(200,220,255,0.12);border-radius:10px;padding:10px 13px;font-size:14px;margin-bottom:12px;outline:none;color:#1a3560;">
       <div style="font-size:11px;font-weight:700;color:#1a3560;text-transform:uppercase;margin-bottom:6px;">Nachricht</div>
-      <textarea id="wa-msg-text" rows="5" style="width:100%;background:rgba(255,255,255,0.65);border:1px solid rgba(200,220,255,0.12);border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:14px;outline:none;resize:none;line-height:1.5;color:#1a3560;"></textarea>
-      <div style="display:flex;gap:8px;">
-        <div onclick="closeWAPanel()" style="flex:1;background:rgba(255,255,255,0.65);border:1px solid rgba(30,80,140,0.12);border-radius:12px;padding:12px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;color:#1a3560;">Abbrechen</div>
+      <textarea id="wa-msg-text" rows="5" style="width:100%;background:rgba(255,255,255,0.65);border:1px solid rgba(200,220,255,0.12);border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:14px;outline:none;r
+if('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').then(function(reg) {
+      console.log('SW registered');
+    }).catch(function(err) {
+      console.log('SW failed:', err);
+    });
+  });
+}
+;cursor:pointer;font-size:13px;font-weight:700;color:#1a3560;">Abbrechen</div>
         <div onclick="sendWAPanel()" style="flex:2;background:#1a9c50;border-radius:12px;padding:12px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;color:#fff;">&#128172; In WhatsApp oeffnen</div>
       </div>
     </div>
