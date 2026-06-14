@@ -33,7 +33,7 @@ body{background:linear-gradient(135deg,#b8d0e8 0%,#cce0f0 50%,#a8c8e0 100%);min-
 .logout-btn:hover{background:rgba(30,80,140,0.06);}
 
 /* SIDEBAR NAV */
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;color:rgba(26,53,96,0.7);transition:all 0.15s;border:1px solid transparent;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;cursor:pointer;font-size:13px;font-weight:600;color:rgba(26,53,96,0.75);transition:all 0.2s;border:1px solid rgba(255,255,255,0.6);background:rgba(255,255,255,0.35);box-shadow:0 1px 4px rgba(30,80,140,0.05);}
 .nav-item:hover{background:rgba(255,255,255,0.7);border-color:rgba(30,80,140,0.15);color:#1a3560;box-shadow:0 2px 8px rgba(30,80,140,0.08);}
 .nav-item.active{background:rgba(255,255,255,0.88);border-color:rgba(30,80,140,0.2);color:#1a3560;box-shadow:0 2px 12px rgba(30,80,140,0.12);}
 .nav-item .ni{font-size:18px;width:24px;text-align:center;}
@@ -170,15 +170,19 @@ body{background:linear-gradient(135deg,#b8d0e8 0%,#cce0f0 50%,#a8c8e0 100%);min-
     <!-- Nav (hidden until login) -->
     <div id="nav-panel" style="display:none;">
       <div class="nav-section">Navigation</div>
-      <div class="nav-item active" id="nav-h" onclick="gotoView('view-home','nav-h')"><span class="ni">&#127968;</span>Home</div>
-      <div class="nav-item" id="nav-k" onclick="gotoView('view-kunden','nav-k')"><span class="ni">&#128101;</span>Kunden</div>
-      <div class="nav-item" id="nav-t" onclick="gotoView('view-tour','nav-t')"><span class="ni">&#128506;</span>Tour</div>
-      <div class="nav-item" id="nav-c" onclick="gotoView('view-chat','nav-c')"><span class="ni">&#128172;</span>KI-Chat</div>
-      <div class="nav-item" id="nav-b" onclick="gotoView('view-br','nav-b')"><span class="ni">&#127897;</span>Bericht</div>
-      <div class="nav-section" style="margin-top:8px;">Integrationen</div>
-      <div class="nav-item" onclick="openInt('outlook')"><span class="ni">&#128231;</span>Outlook</div>
-      <div class="nav-item" onclick="openInt('wa')"><span class="ni">&#128172;</span>WhatsApp</div>
-      <div class="nav-item" onclick="openInt('asana')"><span class="ni">&#9989;</span>Asana</div>
+      <div style="display:flex;flex-direction:column;gap:5px;padding:4px 0;">
+        <div class="nav-item active" id="nav-h" onclick="gotoView('view-home','nav-h')"><span class="ni">&#127968;</span>Home</div>
+        <div class="nav-item" id="nav-k" onclick="gotoView('view-kunden','nav-k')"><span class="ni">&#128101;</span>Kunden</div>
+        <div class="nav-item" id="nav-t" onclick="gotoView('view-tour','nav-t')"><span class="ni">&#128506;</span>Tour</div>
+        <div class="nav-item" id="nav-c" onclick="gotoView('view-chat','nav-c')"><span class="ni">&#128172;</span>KI-Chat</div>
+        <div class="nav-item" id="nav-b" onclick="gotoView('view-br','nav-b')"><span class="ni">&#127908;</span>Bericht</div>
+      </div>
+      <div class="nav-section" style="margin-top:12px;">Integrationen</div>
+      <div style="display:flex;flex-direction:column;gap:5px;padding:4px 0;">
+        <div class="nav-item" onclick="openInt('outlook')"><span class="ni">&#128231;</span>Outlook</div>
+        <div class="nav-item" onclick="openInt('wa')"><span class="ni">&#128172;</span>WhatsApp</div>
+        <div class="nav-item" onclick="openInt('asana')"><span class="ni">&#9989;</span>Asana</div>
+      </div>
     </div>
   </div>
 
@@ -994,14 +998,30 @@ function filterSearch(){
 
 var _origOpenKP=openKP;
 function openKP(nr){
+  // Find customer in full KA array (not just MK - MK might be filtered)
+  var k=null;
+  for(var i=0;i<KA.length;i++){if(KA[i].nr===nr){k=KA[i];break;}}
+  if(!k)return;
+  // Also check MK for current vertreter context
+  var inMK=false;
+  for(var i=0;i<MK.length;i++){if(MK[i].nr===nr){inMK=true;break;}}
+  if(!inMK)MK.push(k); // temporarily add so openKP can find it
+
+  // Remember current view
   var curView='view-home',curNav='nav-h';
   document.querySelectorAll('.view.active').forEach(function(v){curView=v.id;});
   document.querySelectorAll('.nav-item.active').forEach(function(b){curNav=b.id;});
+
+  // Run original
   _origOpenKP(nr);
+
+  // Restore current view
   document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
   var lv=document.getElementById(curView);if(lv)lv.classList.add('active');
   document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active');});
   var ln=document.getElementById(curNav);if(ln)ln.classList.add('active');
+
+  // Open detail panel
   var panel=document.getElementById('detail-panel');
   if(panel){panel.classList.remove('open');void panel.offsetWidth;panel.classList.add('open');}
 }
